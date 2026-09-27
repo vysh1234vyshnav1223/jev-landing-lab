@@ -1,26 +1,379 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────
+   Design tokens.
+
+   Two separate systems on purpose:
+   1. The LAB shell — the tool itself. Dark, neutral, restrained.
+   2. The PREVIEW surface — themed per generated page, driven by
+      Jev's visualDirection. Scoped under [data-preview] so a
+      generated page can never leak its palette into the shell.
+   ────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Neutral ramp — cool grey, not pure black. */
+  --lab-0: #08090b;
+  --lab-1: #0d0f13;
+  --lab-2: #12151a;
+  --lab-3: #181c23;
+  --lab-4: #21262f;
+  --lab-5: #2c323d;
+
+  --lab-text: #f2f4f7;
+  --lab-text-muted: #9aa3b2;
+  --lab-text-faint: #646e7e;
+
+  --lab-border: #21262f;
+  --lab-border-strong: #333b48;
+
+  --lab-accent: #6e8bff;
+  --lab-accent-hover: #8aa1ff;
+  --lab-accent-fg: #0a0c10;
+  --lab-accent-soft: rgba(110, 139, 255, 0.12);
+
+  --lab-positive: #3fbf87;
+  --lab-warn: #e3a04a;
+  --lab-danger: #f0616d;
+
+  /* Type scale — 1.2 minor third, 15px base. */
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.125rem;
+  --step-2: 1.375rem;
+  --step-3: 1.75rem;
+  --step-4: 2.25rem;
+  --step-5: 3rem;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 24px 60px -18px rgba(0, 0, 0, 0.65);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-lab-0: var(--lab-0);
+  --color-lab-1: var(--lab-1);
+  --color-lab-2: var(--lab-2);
+  --color-lab-3: var(--lab-3);
+  --color-lab-4: var(--lab-4);
+  --color-lab-5: var(--lab-5);
+  --color-lab-text: var(--lab-text);
+  --color-lab-muted: var(--lab-text-muted);
+  --color-lab-faint: var(--lab-text-faint);
+  --color-lab-border: var(--lab-border);
+  --color-lab-border-strong: var(--lab-border-strong);
+  --color-lab-accent: var(--lab-accent);
+  --color-lab-accent-hover: var(--lab-accent-hover);
+  --color-lab-positive: var(--lab-positive);
+  --color-lab-warn: var(--lab-warn);
+  --color-lab-danger: var(--lab-danger);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --text-xs: var(--step--1);
+  --text-sm: var(--step-0);
+  --text-base: var(--step-0);
+  --text-lg: var(--step-1);
+  --text-xl: var(--step-2);
+  --text-2xl: var(--step-3);
+  --text-3xl: var(--step-4);
+  --text-4xl: var(--step-5);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--lab-border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--lab-0);
+  color: var(--lab-text);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.5;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus: always visible, never ugly. */
+:focus-visible {
+  outline: 2px solid var(--lab-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+::selection {
+  background: var(--lab-accent-soft);
+  color: var(--lab-text);
+}
+
+/* The generated preview is its own light/white surface with its own accent —
+   inheriting the dark shell's selection colors made selected text nearly
+   invisible (near-white text on a pale lavender highlight). Scoped so this
+   never leaks back into the shell around it. */
+[data-preview] ::selection {
+  background: var(--p-accent-soft);
+  color: var(--p-text);
+}
+
+/* Scrollbars — thin and unobtrusive, matching the shell. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lab-4) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--lab-4);
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--lab-5);
+  background-clip: content-box;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Preview surface. Each generated page sets data-theme and
+   data-accent; everything below is scoped so it cannot escape.
+   ────────────────────────────────────────────────────────────── */
+
+[data-preview] {
+  --p-bg: #ffffff;
+  --p-surface: #f7f8fa;
+  --p-raised: #ffffff;
+  --p-text: #0d1117;
+  --p-muted: #5a6572;
+  --p-border: #e3e7ec;
+  --p-border-strong: #cdd4dc;
+  --p-accent: #2f6df6;
+  --p-accent-hover: #245ad4;
+  --p-accent-fg: #ffffff;
+  --p-accent-soft: rgba(47, 109, 246, 0.1);
+  --p-radius: 10px;
+  --p-shadow: 0 1px 3px rgba(13, 17, 23, 0.08), 0 8px 24px -12px rgba(13, 17, 23, 0.12);
+  --p-font: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --p-heading-tracking: -0.022em;
+  --p-heading-weight: 600;
+  --p-section-y: 5rem;
+
+  background: var(--p-bg);
+  color: var(--p-text);
+  font-family: var(--p-font);
+}
+
+/* Accents */
+[data-preview][data-accent="blue"] { --p-accent: #2f6df6; --p-accent-hover: #245ad4; --p-accent-soft: rgba(47,109,246,.1); }
+[data-preview][data-accent="emerald"] { --p-accent: #0f9d68; --p-accent-hover: #0c8155; --p-accent-soft: rgba(15,157,104,.1); }
+[data-preview][data-accent="amber"] { --p-accent: #b4700f; --p-accent-hover: #955c0b; --p-accent-soft: rgba(180,112,15,.1); }
+[data-preview][data-accent="violet"] { --p-accent: #6743d8; --p-accent-hover: #5534b8; --p-accent-soft: rgba(103,67,216,.1); }
+[data-preview][data-accent="rose"] { --p-accent: #d13a5e; --p-accent-hover: #b02b4c; --p-accent-soft: rgba(209,58,94,.1); }
+[data-preview][data-accent="slate"] { --p-accent: #3f4855; --p-accent-hover: #2c333d; --p-accent-soft: rgba(63,72,85,.1); }
+
+/* Visual directions — these are what Jev's visualDirection actually buys. */
+[data-preview][data-theme="clean_utility"] {
+  --p-radius: 8px;
+  --p-section-y: 4.5rem;
+  --p-heading-tracking: -0.02em;
+}
+
+[data-preview][data-theme="warm_editorial"] {
+  --p-bg: #fcfaf7;
+  --p-surface: #f5f1ea;
+  --p-raised: #ffffff;
+  --p-text: #1c1814;
+  --p-muted: #6b6055;
+  --p-border: #e8e0d4;
+  --p-border-strong: #d6cabb;
+  --p-radius: 16px;
+  --p-section-y: 7rem;
+  --p-heading-tracking: -0.028em;
+  --p-heading-weight: 500;
+}
+
+[data-preview][data-theme="bold_confident"] {
+  --p-bg: #ffffff;
+  --p-surface: #f2f3f7;
+  --p-text: #07080c;
+  --p-muted: #4d5462;
+  --p-border: #dfe3ea;
+  --p-border-strong: #b9c0cc;
+  --p-radius: 6px;
+  --p-section-y: 6rem;
+  --p-heading-tracking: -0.04em;
+  --p-heading-weight: 700;
+}
+
+[data-preview][data-theme="technical_precise"] {
+  --p-bg: #fbfbfc;
+  --p-surface: #f4f5f7;
+  --p-text: #101318;
+  --p-muted: #59616e;
+  --p-border: #e2e5ea;
+  --p-border-strong: #c6ccd4;
+  --p-radius: 4px;
+  --p-section-y: 4.5rem;
+  --p-heading-tracking: -0.015em;
+  --p-heading-weight: 600;
+}
+[data-preview][data-theme="technical_precise"] .p-eyebrow,
+[data-preview][data-theme="technical_precise"] .p-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Reduced motion. Animation is a layer, never the mechanism.
+   ────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes lab-shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+.lab-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--lab-2) 25%,
+    var(--lab-3) 37%,
+    var(--lab-2) 63%
+  );
+  background-size: 200% 100%;
+  animation: lab-shimmer 1.6s ease-in-out infinite;
+}
+
+/* Grain + glow used sparingly on the shell background. */
+.lab-vignette {
+  background:
+    radial-gradient(60rem 40rem at 50% -10%, rgba(110, 139, 255, 0.07), transparent 65%),
+    radial-gradient(40rem 30rem at 85% 10%, rgba(63, 191, 135, 0.04), transparent 60%);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Landing surface — oscilloscope. Deep ink base, sodium amber for
+   live/uncertain values, mint for settled ones. Amber and mint are
+   semantic here, not decoration: they encode confidence.
+   ────────────────────────────────────────────────────────────── */
+
+:root,
+:root[data-theme="dark"] {
+  --ink: #0a0f14;
+  --ink-2: #111922;
+  --ink-3: #1a2530;
+  --sodium: #ffb03a;
+  --mint: #57e0a8;
+  --paper: #eef2f5;
+  --dim: #7b8b9c;
+  --hair: rgba(238, 242, 245, 0.1);
+}
+
+/* Native scrollbars and form controls follow the theme too. */
+:root,
+:root[data-theme="dark"] { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { color-scheme: light; }
+}
+
+/* Light mode inverts the metaphor: ink on paper, not phosphor on glass.
+   The amber and mint are darkened so both clear 4.5:1 on a light ground —
+   the bright values only read as signal against black. */
+:root[data-theme="light"] {
+  --ink: #f6f4ef;
+  --ink-2: #fffdf9;
+  --ink-3: #e6e2d8;
+  --sodium: #a05e00;
+  --mint: #0f7a52;
+  --paper: #14181d;
+  --dim: #5f6b78;
+  --hair: rgba(20, 24, 29, 0.14);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ink: #f6f4ef;
+    --ink-2: #fffdf9;
+    --ink-3: #e6e2d8;
+    --sodium: #a05e00;
+    --mint: #0f7a52;
+    --paper: #14181d;
+    --dim: #5f6b78;
+    --hair: rgba(20, 24, 29, 0.14);
+  }
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+}
+
+.lab-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+}
+
+/* The scan sweep behind the hero panel. One ambient motion for the
+   whole page — everything else is user-triggered. */
+@keyframes lab-sweep {
+  0%   { transform: translateY(-8%); opacity: 0; }
+  12%  { opacity: 0.55; }
+  88%  { opacity: 0.55; }
+  100% { transform: translateY(108%); opacity: 0; }
+}
+
+.lab-sweep {
+  animation: lab-sweep 7s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-sweep { animation: none; opacity: 0; }
+}
+
+/* The landing owns the whole viewport, so the body must follow its palette —
+   otherwise overscroll and the area under a short page show the shell's dark
+   grey. The workbench keeps --lab-0 via the body rule above. */
+body:has(> [data-landing]) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* The scan wash is a glow on dark and a shadow on light. */
+:root { --sweep: rgba(255, 176, 58, 0.07); }
+:root[data-theme="light"] { --sweep: rgba(20, 24, 29, 0.05); }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { --sweep: rgba(20, 24, 29, 0.05); }
+}
+
+/* The reactive landings' only field is the whole screen; the caret is the
+   focus indicator, so the global ring would just box the prose. */
+[data-landing] textarea:focus-visible {
+  outline: none;
 }

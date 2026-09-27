@@ -1,0 +1,495 @@
+{
+  "id": "saas",
+  "label": "B2B analytics",
+  "brief": "A product analytics platform for B2B SaaS teams who have outgrown spreadsheets but find Amplitude too expensive and too complex. Buyers are heads of product and growth at 20–200 person companies. We want them to start a free trial and connect their data source within the first session.",
+  "result": {
+    "brief": {
+      "industry": "B2B SaaS",
+      "product": "product analytics platform",
+      "audience": "Heads of product at 20–200 person SaaS companies",
+      "primaryGoal": "Start a free trial",
+      "secondaryGoals": [
+        "Connect their data source within the first session",
+        "Reduce reliance on spreadsheets",
+        "Provide a simpler, more affordable alternative to Amplitude"
+      ],
+      "brandAttributes": [
+        "Precise",
+        "Capable",
+        "Calm"
+      ],
+      "conversionAction": "start a free trial",
+      "geography": "global",
+      "competitors": [
+        "Amplitude",
+        "Mixpanel",
+        "Heap"
+      ],
+      "priceContext": "More affordable than Amplitude; pricing not disclosed",
+      "productName": "product analytics platform"
+    },
+    "decisions": {
+      "decisions": {
+        "heroStrategy": {
+          "id": "heroStrategy",
+          "type": "choice",
+          "question": "Which hero strategy will best move a first-time visitor toward the primary conversion action?",
+          "ranked": [
+            {
+              "option": "value_prop",
+              "label": "The product needs to be explained before anyone will act; a clear headline and benefit statement lead",
+              "probability": 0.7
+            },
+            {
+              "option": "product_demo",
+              "label": "Seeing the product work is the most convincing argument; lead with a visual or interactive demonstration",
+              "probability": 0.29
+            },
+            {
+              "option": "search_first",
+              "label": "Visitors already know what they want; putting the core tool or search directly in the hero beats persuasion",
+              "probability": 0.01
+            },
+            {
+              "option": "social_proof",
+              "label": "Credibility is the main thing standing between the visitor and the action; lead with proof others trust it",
+              "probability": 0
+            }
+          ],
+          "selected": "value_prop",
+          "confidence": 0.59,
+          "entropy": 0.5959406540511122
+        },
+        "ctaStrategy": {
+          "id": "ctaStrategy",
+          "type": "choice",
+          "question": "What should the primary call to action ask the visitor to do?",
+          "ranked": [
+            {
+              "option": "free_trial",
+              "label": "Ask for a low-commitment trial or free tier before asking for money",
+              "probability": 0.98
+            },
+            {
+              "option": "direct_action",
+              "label": "Ask for the core conversion action immediately — the visitor is ready",
+              "probability": 0.02
+            },
+            {
+              "option": "contact",
+              "label": "Ask the visitor to talk to a person; the purchase is considered, high-value or bespoke",
+              "probability": 0
+            },
+            {
+              "option": "explore",
+              "label": "Ask the visitor to browse or discover first; the decision needs more input",
+              "probability": 0
+            }
+          ],
+          "selected": "free_trial",
+          "confidence": 0.98,
+          "entropy": 0.14144054254182067
+        },
+        "socialProofType": {
+          "id": "socialProofType",
+          "type": "choice",
+          "question": "Which form of social proof will carry the most weight with this audience?",
+          "ranked": [
+            {
+              "option": "customer_logos",
+              "label": "Recognisable company names; the audience is professional and judges by peers",
+              "probability": 0.88
+            },
+            {
+              "option": "testimonials",
+              "label": "Named individual quotes; the audience responds to human stories",
+              "probability": 0.1
+            },
+            {
+              "option": "metrics",
+              "label": "Hard numbers — users, volume, ratings; the audience responds to scale",
+              "probability": 0.02
+            },
+            {
+              "option": "ratings_reviews",
+              "label": "Aggregate star ratings and review counts; consumer purchase with many alternatives",
+              "probability": 0
+            }
+          ],
+          "selected": "customer_logos",
+          "confidence": 0.85,
+          "entropy": 0.38320373864291246
+        },
+        "contentHierarchy": {
+          "id": "contentHierarchy",
+          "type": "choice",
+          "question": "What should the page lead with after the hero, given how this audience makes decisions?",
+          "ranked": [
+            {
+              "option": "utility",
+              "label": "Lead with what the product does and how to use it — function over feeling",
+              "probability": 0.51
+            },
+            {
+              "option": "persuasion",
+              "label": "Lead with benefits, proof and objection handling — the visitor needs convincing",
+              "probability": 0.49
+            },
+            {
+              "option": "discovery",
+              "label": "Lead with browsing, inspiration and options — the visitor is still choosing",
+              "probability": 0
+            }
+          ],
+          "selected": "utility",
+          "confidence": 0.26,
+          "entropy": 0.9997114417528099
+        },
+        "visualDirection": {
+          "id": "visualDirection",
+          "type": "choice",
+          "question": "Which visual register best matches this brand and audience?",
+          "ranked": [
+            {
+              "option": "clean_utility",
+              "label": "Neutral, dense, efficient — reads as a reliable tool",
+              "probability": 0.55
+            },
+            {
+              "option": "technical_precise",
+              "label": "Monospace accents, fine borders, restrained palette — reads as built for experts",
+              "probability": 0.45
+            },
+            {
+              "option": "bold_confident",
+              "label": "High contrast, strong type, saturated accent — reads as decisive and modern",
+              "probability": 0
+            },
+            {
+              "option": "warm_editorial",
+              "label": "Generous spacing, imagery-led, magazine-like — reads as inviting and considered",
+              "probability": 0
+            }
+          ],
+          "selected": "clean_utility",
+          "confidence": 0.4,
+          "entropy": 0.9927744539878083
+        },
+        "pageArchitecture": {
+          "id": "pageArchitecture",
+          "type": "choice",
+          "question": "How much page does this product need to make its case?",
+          "ranked": [
+            {
+              "option": "standard",
+              "label": "A conventional mid-length page covering features, proof and pricing",
+              "probability": 0.53
+            },
+            {
+              "option": "comprehensive",
+              "label": "A long page — the decision is complex and needs features, comparison, FAQ and objection handling",
+              "probability": 0.41
+            },
+            {
+              "option": "focused",
+              "label": "A short page — hero, proof, one CTA. More would dilute a simple decision",
+              "probability": 0.06
+            }
+          ],
+          "selected": "standard",
+          "confidence": 0.29,
+          "entropy": 0.7926776036328312
+        },
+        "navigationComplexity": {
+          "id": "navigationComplexity",
+          "type": "score",
+          "question": "How much navigation does this page need for the visitor to feel oriented without being distracted from the primary action?",
+          "score": 0.66,
+          "levels": [
+            "Almost none — a wordmark and a single action; anything more competes with conversion",
+            "Moderate — a few destinations plus the primary action",
+            "Full — multiple sections and categories; the visitor genuinely needs to navigate"
+          ],
+          "ranked": [
+            {
+              "option": "1",
+              "label": "Moderate — a few destinations plus the primary action",
+              "probability": 0.66
+            },
+            {
+              "option": "0",
+              "label": "Almost none — a wordmark and a single action; anything more competes with conversion",
+              "probability": 0.34
+            },
+            {
+              "option": "2",
+              "label": "Full — multiple sections and categories; the visitor genuinely needs to navigate",
+              "probability": 0
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.48,
+          "entropy": 0.9248187049730301
+        },
+        "interactionDensity": {
+          "id": "interactionDensity",
+          "type": "score",
+          "question": "How interactive should this page be for this audience and product?",
+          "score": 1.24,
+          "levels": [
+            "Static and editorial — reading, not operating; interaction would be noise",
+            "Some interactive affordances — tabs, toggles, a few controls that aid the decision",
+            "Heavily interactive — the page should behave like the product itself"
+          ],
+          "ranked": [
+            {
+              "option": "1",
+              "label": "Some interactive affordances — tabs, toggles, a few controls that aid the decision",
+              "probability": 0.75
+            },
+            {
+              "option": "2",
+              "label": "Heavily interactive — the page should behave like the product itself",
+              "probability": 0.25
+            },
+            {
+              "option": "0",
+              "label": "Static and editorial — reading, not operating; interaction would be noise",
+              "probability": 0
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.63,
+          "entropy": 0.8112781244591328
+        },
+        "offerProminence": {
+          "id": "offerProminence",
+          "type": "score",
+          "question": "How prominent should price, offers or commercial terms be on this page?",
+          "score": 0.59,
+          "levels": [
+            "Absent — price is not how this decision is made, or is not public",
+            "Present but secondary — available for those who look, not leading",
+            "Leading — price or offer is the strongest argument and belongs high on the page"
+          ],
+          "ranked": [
+            {
+              "option": "0",
+              "label": "Absent — price is not how this decision is made, or is not public",
+              "probability": 0.47
+            },
+            {
+              "option": "1",
+              "label": "Present but secondary — available for those who look, not leading",
+              "probability": 0.47
+            },
+            {
+              "option": "2",
+              "label": "Leading — price or offer is the strongest argument and belongs high on the page",
+              "probability": 0.06
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.11,
+          "entropy": 0.7996687105075296
+        },
+        "trustIsPrimaryBarrier": {
+          "id": "trustIsPrimaryBarrier",
+          "type": "noul",
+          "question": "Is trust or credibility the main thing preventing this audience from converting?",
+          "probability": 0.48,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.9988455359952018
+        },
+        "audienceIsPriceSensitive": {
+          "id": "audienceIsPriceSensitive",
+          "type": "noul",
+          "question": "Is this audience primarily motivated by price?",
+          "probability": 0.34,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.9248187049730301
+        },
+        "requiresEducation": {
+          "id": "requiresEducation",
+          "type": "noul",
+          "question": "Does the visitor need to be taught something before the offer makes sense?",
+          "probability": 0.18,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.6800770457282798
+        }
+      },
+      "meta": {
+        "decisionId": "gen-dec-1790428714-PUAwgjTLh3MF3Ia3c1vj",
+        "model": "typesafe/jev-1.13-20260917",
+        "latencyMs": 1474,
+        "cost": 0.000072156
+      }
+    },
+    "direction": {
+      "strategy": {
+        "heroStrategy": "value_prop",
+        "ctaStrategy": "free_trial",
+        "socialProofType": "customer_logos",
+        "contentHierarchy": "utility",
+        "visualDirection": "clean_utility",
+        "pageArchitecture": "standard",
+        "navigationComplexity": 1,
+        "interactionDensity": 1,
+        "offerProminence": 0,
+        "trustIsPrimaryBarrier": false,
+        "audienceIsPriceSensitive": false,
+        "requiresEducation": false
+      },
+      "departures": []
+    },
+    "spec": {
+      "theme": {
+        "direction": "clean_utility",
+        "accent": "blue"
+      },
+      "navigation": {
+        "wordmark": "Precise Analytics",
+        "links": [
+          {
+            "label": "Product",
+            "href": "/product"
+          },
+          {
+            "label": "Customers",
+            "href": "/customers"
+          },
+          {
+            "label": "Pricing",
+            "href": "/pricing"
+          }
+        ],
+        "ctaLabel": "Start free trial",
+        "sticky": true
+      },
+      "hero": {
+        "variant": "value_prop",
+        "eyebrow": "Product analytics for SaaS teams",
+        "headline": "Turn product data into decisions",
+        "subheadline": "Capture events, analyze funnels, and surface actionable insights with clean dashboards.",
+        "primaryCta": "Start free trial",
+        "secondaryCta": "Explore features",
+        "trustSignals": [
+          "SOC 2 Type II",
+          "GDPR compliant",
+          "Regional data residency options"
+        ],
+        "searchFields": [],
+        "demoSteps": [
+          {
+            "label": "Install and import data",
+            "detail": "Connect your product events in minutes with the onboarding wizard."
+          },
+          {
+            "label": "Explore funnels",
+            "detail": "Review onboarding, activation, and retention in guided reports."
+          }
+        ]
+      },
+      "sections": [
+        {
+          "type": "featureGrid",
+          "heading": "Core analytics for product teams",
+          "subheading": null,
+          "items": [
+            {
+              "icon": "bar-chart-2",
+              "title": "Event-level data",
+              "body": "Capture every in-app action with user and device context."
+            },
+            {
+              "icon": "funnel",
+              "title": "Funnel analysis",
+              "body": "Visualize conversion paths and identify where users drop off."
+            },
+            {
+              "icon": "clock",
+              "title": "Cohort & retention",
+              "body": "Build cohorts by activation date, plan, or feature use and measure retention."
+            },
+            {
+              "icon": "shield-check",
+              "title": "Permissions & data controls",
+              "body": "Role-based access, data residency, and audit trails."
+            }
+          ]
+        },
+        {
+          "type": "socialProof",
+          "heading": "Trusted by growing product teams",
+          "subheading": null,
+          "variant": "customer_logos",
+          "logos": [
+            "acme-saas",
+            "orbitify",
+            "fluxlabs",
+            "horizon-edge",
+            "cloudcraft",
+            "nova-systems"
+          ],
+          "quotes": [],
+          "metrics": [],
+          "rating": null
+        },
+        {
+          "type": "testimonials",
+          "heading": "What product leaders say",
+          "subheading": null,
+          "items": [
+            {
+              "quote": "Precise provides reliable product data that informs our roadmap.",
+              "name": "Alex Kim",
+              "role": "Head of Product, Orbit Labs"
+            },
+            {
+              "quote": "The dashboards are fast and clear. Our team ships features faster.",
+              "name": "Priya N",
+              "role": "VP of Product, CloudForge"
+            },
+            {
+              "quote": "We can trust retention signals and measure impact of experiments.",
+              "name": "Jon Martinez",
+              "role": "Director of Product, NovaFlow"
+            }
+          ]
+        },
+        {
+          "type": "cta",
+          "heading": "Get started with Precise today",
+          "subheading": null,
+          "primaryCta": "Start free trial",
+          "secondaryCta": "See pricing",
+          "reassurance": "No credit card required. Cancel anytime."
+        }
+      ],
+      "footer": {
+        "tagline": "Precise Analytics helps SaaS teams ship with confidence.",
+        "columns": [
+          {
+            "title": "Product",
+            "links": [
+              "Overview",
+              "Features",
+              "Roadmap"
+            ]
+          },
+          {
+            "title": "Company",
+            "links": [
+              "About",
+              "Careers",
+              "Contact"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

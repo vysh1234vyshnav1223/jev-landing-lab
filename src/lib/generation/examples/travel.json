@@ -1,0 +1,542 @@
+{
+  "id": "travel",
+  "label": "Travel booking",
+  "brief": "I am building a flight and hotel booking platform for budget-conscious travellers in India. We compete with MakeMyTrip and Goibibo, mostly on price transparency — no booking fee, taxes shown upfront. The main thing I want visitors to do is run a flight search. The brand should feel trustworthy, fast and affordable.",
+  "result": {
+    "brief": {
+      "industry": "Online travel agency",
+      "product": "Flight and hotel booking platform",
+      "audience": "Budget-conscious Indian travellers",
+      "primaryGoal": "Get visitors to search for flights",
+      "secondaryGoals": [
+        "Encourage hotel bookings",
+        "Increase repeat usage"
+      ],
+      "brandAttributes": [
+        "trustworthy",
+        "fast",
+        "affordable"
+      ],
+      "conversionAction": "search for flights",
+      "geography": "India",
+      "competitors": [
+        "MakeMyTrip",
+        "Goibibo"
+      ],
+      "priceContext": "No booking fee, taxes shown upfront",
+      "productName": "Flight and hotel booking platform for budget-conscious travellers in India"
+    },
+    "decisions": {
+      "decisions": {
+        "heroStrategy": {
+          "id": "heroStrategy",
+          "type": "choice",
+          "question": "Which hero strategy will best move a first-time visitor toward the primary conversion action?",
+          "ranked": [
+            {
+              "option": "search_first",
+              "label": "Visitors already know what they want; putting the core tool or search directly in the hero beats persuasion",
+              "probability": 0.96
+            },
+            {
+              "option": "value_prop",
+              "label": "The product needs to be explained before anyone will act; a clear headline and benefit statement lead",
+              "probability": 0.04
+            },
+            {
+              "option": "product_demo",
+              "label": "Seeing the product work is the most convincing argument; lead with a visual or interactive demonstration",
+              "probability": 0
+            },
+            {
+              "option": "social_proof",
+              "label": "Credibility is the main thing standing between the visitor and the action; lead with proof others trust it",
+              "probability": 0
+            }
+          ],
+          "selected": "search_first",
+          "confidence": 0.95,
+          "entropy": 0.24229218908241482
+        },
+        "ctaStrategy": {
+          "id": "ctaStrategy",
+          "type": "choice",
+          "question": "What should the primary call to action ask the visitor to do?",
+          "ranked": [
+            {
+              "option": "direct_action",
+              "label": "Ask for the core conversion action immediately — the visitor is ready",
+              "probability": 0.98
+            },
+            {
+              "option": "explore",
+              "label": "Ask the visitor to browse or discover first; the decision needs more input",
+              "probability": 0.02
+            },
+            {
+              "option": "contact",
+              "label": "Ask the visitor to talk to a person; the purchase is considered, high-value or bespoke",
+              "probability": 0
+            },
+            {
+              "option": "free_trial",
+              "label": "Ask for a low-commitment trial or free tier before asking for money",
+              "probability": 0
+            }
+          ],
+          "selected": "direct_action",
+          "confidence": 0.98,
+          "entropy": 0.14144054254182067
+        },
+        "socialProofType": {
+          "id": "socialProofType",
+          "type": "choice",
+          "question": "Which form of social proof will carry the most weight with this audience?",
+          "ranked": [
+            {
+              "option": "ratings_reviews",
+              "label": "Aggregate star ratings and review counts; consumer purchase with many alternatives",
+              "probability": 0.94
+            },
+            {
+              "option": "metrics",
+              "label": "Hard numbers — users, volume, ratings; the audience responds to scale",
+              "probability": 0.05
+            },
+            {
+              "option": "testimonials",
+              "label": "Named individual quotes; the audience responds to human stories",
+              "probability": 0.01
+            },
+            {
+              "option": "customer_logos",
+              "label": "Recognisable company names; the audience is professional and judges by peers",
+              "probability": 0
+            }
+          ],
+          "selected": "ratings_reviews",
+          "confidence": 0.92,
+          "entropy": 0.23120185132875065
+        },
+        "contentHierarchy": {
+          "id": "contentHierarchy",
+          "type": "choice",
+          "question": "What should the page lead with after the hero, given how this audience makes decisions?",
+          "ranked": [
+            {
+              "option": "persuasion",
+              "label": "Lead with benefits, proof and objection handling — the visitor needs convincing",
+              "probability": 0.61
+            },
+            {
+              "option": "utility",
+              "label": "Lead with what the product does and how to use it — function over feeling",
+              "probability": 0.38
+            },
+            {
+              "option": "discovery",
+              "label": "Lead with browsing, inspiration and options — the visitor is still choosing",
+              "probability": 0.01
+            }
+          ],
+          "selected": "persuasion",
+          "confidence": 0.41,
+          "entropy": 0.6510526011077807
+        },
+        "visualDirection": {
+          "id": "visualDirection",
+          "type": "choice",
+          "question": "Which visual register best matches this brand and audience?",
+          "ranked": [
+            {
+              "option": "clean_utility",
+              "label": "Neutral, dense, efficient — reads as a reliable tool",
+              "probability": 0.78
+            },
+            {
+              "option": "bold_confident",
+              "label": "High contrast, strong type, saturated accent — reads as decisive and modern",
+              "probability": 0.21
+            },
+            {
+              "option": "warm_editorial",
+              "label": "Generous spacing, imagery-led, magazine-like — reads as inviting and considered",
+              "probability": 0.01
+            },
+            {
+              "option": "technical_precise",
+              "label": "Monospace accents, fine borders, restrained palette — reads as built for experts",
+              "probability": 0
+            }
+          ],
+          "selected": "clean_utility",
+          "confidence": 0.71,
+          "entropy": 0.5166404882803555
+        },
+        "pageArchitecture": {
+          "id": "pageArchitecture",
+          "type": "choice",
+          "question": "How much page does this product need to make its case?",
+          "ranked": [
+            {
+              "option": "focused",
+              "label": "A short page — hero, proof, one CTA. More would dilute a simple decision",
+              "probability": 0.84
+            },
+            {
+              "option": "standard",
+              "label": "A conventional mid-length page covering features, proof and pricing",
+              "probability": 0.15
+            },
+            {
+              "option": "comprehensive",
+              "label": "A long page — the decision is complex and needs features, comparison, FAQ and objection handling",
+              "probability": 0.01
+            }
+          ],
+          "selected": "focused",
+          "confidence": 0.76,
+          "entropy": 0.43425378517543695
+        },
+        "navigationComplexity": {
+          "id": "navigationComplexity",
+          "type": "score",
+          "question": "How much navigation does this page need for the visitor to feel oriented without being distracted from the primary action?",
+          "score": 0.54,
+          "levels": [
+            "Almost none — a wordmark and a single action; anything more competes with conversion",
+            "Moderate — a few destinations plus the primary action",
+            "Full — multiple sections and categories; the visitor genuinely needs to navigate"
+          ],
+          "ranked": [
+            {
+              "option": "1",
+              "label": "Moderate — a few destinations plus the primary action",
+              "probability": 0.51
+            },
+            {
+              "option": "0",
+              "label": "Almost none — a wordmark and a single action; anything more competes with conversion",
+              "probability": 0.48
+            },
+            {
+              "option": "2",
+              "label": "Full — multiple sections and categories; the visitor genuinely needs to navigate",
+              "probability": 0.01
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.27,
+          "entropy": 0.6751814409086623
+        },
+        "interactionDensity": {
+          "id": "interactionDensity",
+          "type": "score",
+          "question": "How interactive should this page be for this audience and product?",
+          "score": 1.76,
+          "levels": [
+            "Static and editorial — reading, not operating; interaction would be noise",
+            "Some interactive affordances — tabs, toggles, a few controls that aid the decision",
+            "Heavily interactive — the page should behave like the product itself"
+          ],
+          "ranked": [
+            {
+              "option": "2",
+              "label": "Heavily interactive — the page should behave like the product itself",
+              "probability": 0.76
+            },
+            {
+              "option": "1",
+              "label": "Some interactive affordances — tabs, toggles, a few controls that aid the decision",
+              "probability": 0.24
+            },
+            {
+              "option": "0",
+              "label": "Static and editorial — reading, not operating; interaction would be noise",
+              "probability": 0
+            }
+          ],
+          "selected": 2,
+          "confidence": 0.64,
+          "entropy": 0.7950402793845223
+        },
+        "offerProminence": {
+          "id": "offerProminence",
+          "type": "score",
+          "question": "How prominent should price, offers or commercial terms be on this page?",
+          "score": 1.97,
+          "levels": [
+            "Absent — price is not how this decision is made, or is not public",
+            "Present but secondary — available for those who look, not leading",
+            "Leading — price or offer is the strongest argument and belongs high on the page"
+          ],
+          "ranked": [
+            {
+              "option": "2",
+              "label": "Leading — price or offer is the strongest argument and belongs high on the page",
+              "probability": 0.97
+            },
+            {
+              "option": "1",
+              "label": "Present but secondary — available for those who look, not leading",
+              "probability": 0.03
+            },
+            {
+              "option": "0",
+              "label": "Absent — price is not how this decision is made, or is not public",
+              "probability": 0
+            }
+          ],
+          "selected": 2,
+          "confidence": 0.95,
+          "entropy": 0.1943918578315762
+        },
+        "trustIsPrimaryBarrier": {
+          "id": "trustIsPrimaryBarrier",
+          "type": "noul",
+          "question": "Is trust or credibility the main thing preventing this audience from converting?",
+          "probability": 0.41,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.9765004687578239
+        },
+        "audienceIsPriceSensitive": {
+          "id": "audienceIsPriceSensitive",
+          "type": "noul",
+          "question": "Is this audience primarily motivated by price?",
+          "probability": 0.93,
+          "value": true,
+          "confidence": null,
+          "entropy": 0.36592365090022305
+        },
+        "requiresEducation": {
+          "id": "requiresEducation",
+          "type": "noul",
+          "question": "Does the visitor need to be taught something before the offer makes sense?",
+          "probability": 0.11,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.499915958164528
+        }
+      },
+      "meta": {
+        "decisionId": "gen-dec-1790429136-8YiBUjlJBVDMvVWJSkGd",
+        "model": "typesafe/jev-1.13-20260917",
+        "latencyMs": 885,
+        "cost": 0.000070686
+      }
+    },
+    "direction": {
+      "strategy": {
+        "heroStrategy": "search_first",
+        "ctaStrategy": "direct_action",
+        "socialProofType": "ratings_reviews",
+        "contentHierarchy": "persuasion",
+        "visualDirection": "clean_utility",
+        "pageArchitecture": "focused",
+        "navigationComplexity": 1,
+        "interactionDensity": 2,
+        "offerProminence": 2,
+        "trustIsPrimaryBarrier": false,
+        "audienceIsPriceSensitive": true,
+        "requiresEducation": false
+      },
+      "departures": []
+    },
+    "spec": {
+      "theme": {
+        "direction": "clean_utility",
+        "accent": "emerald"
+      },
+      "navigation": {
+        "wordmark": "FlyBudget",
+        "links": [
+          {
+            "label": "Flights",
+            "href": "/flights"
+          },
+          {
+            "label": "Hotels",
+            "href": "/hotels"
+          },
+          {
+            "label": "Deals",
+            "href": "/deals"
+          }
+        ],
+        "ctaLabel": "Search Flights",
+        "sticky": true
+      },
+      "hero": {
+        "variant": "search_first",
+        "eyebrow": "Budget travel India",
+        "headline": "Find cheap flights and stays fast",
+        "subheadline": "Compare fares from 20+ airlines and 6,000+ hotels with no booking fee. Taxes shown upfront.",
+        "primaryCta": "Search Flights",
+        "secondaryCta": null,
+        "trustSignals": [
+          "No booking fee",
+          "Taxes shown upfront",
+          "Secure payments"
+        ],
+        "searchFields": [
+          {
+            "label": "From",
+            "placeholder": "City or airport (e.g., DEL)",
+            "kind": "text",
+            "options": []
+          },
+          {
+            "label": "To",
+            "placeholder": "City or airport (e.g., BLR)",
+            "kind": "text",
+            "options": []
+          },
+          {
+            "label": "Depart",
+            "placeholder": "YYYY-MM-DD",
+            "kind": "date",
+            "options": []
+          },
+          {
+            "label": "Return",
+            "placeholder": "YYYY-MM-DD",
+            "kind": "date",
+            "options": []
+          }
+        ],
+        "demoSteps": [
+          {
+            "label": "Step 1",
+            "detail": "Enter origin and destination"
+          },
+          {
+            "label": "Step 2",
+            "detail": "Choose dates"
+          },
+          {
+            "label": "Step 3",
+            "detail": "Compare results and book"
+          }
+        ]
+      },
+      "sections": [
+        {
+          "type": "featureGrid",
+          "heading": "What you get with FlyBudget India",
+          "subheading": null,
+          "items": [
+            {
+              "icon": "tag",
+              "title": "Lowest prices upfront",
+              "body": "Taxes and fees shown before you book."
+            },
+            {
+              "icon": "clock",
+              "title": "Real-time fare updates",
+              "body": "Prices refresh every few minutes from 20+ carriers."
+            },
+            {
+              "icon": "search",
+              "title": "Smart search filters",
+              "body": "Sort by price, duration, stops, and airport."
+            },
+            {
+              "icon": "shield-check",
+              "title": "Trusted partners",
+              "body": "Bookings with verified airlines and hotel chains."
+            }
+          ]
+        },
+        {
+          "type": "socialProof",
+          "heading": "Traveller voices",
+          "subheading": null,
+          "variant": "ratings_reviews",
+          "logos": [],
+          "quotes": [],
+          "metrics": [],
+          "rating": {
+            "score": "4.7/5",
+            "count": "2,430",
+            "source": "Google Reviews"
+          }
+        },
+        {
+          "type": "pricing",
+          "heading": "Simple pricing, no booking fee",
+          "subheading": "Prices shown upfront include taxes. No hidden charges.",
+          "billingToggle": true,
+          "annualDiscountLabel": "Save 20% with annual plan",
+          "plans": [
+            {
+              "name": "Budget Saver",
+              "monthlyPrice": "₹199/mo",
+              "annualPrice": "₹1,980/yr",
+              "period": "Monthly / Annual",
+              "description": "No booking fee on flights. Price alerts, and 24h price lock on hotels.",
+              "features": [
+                "No booking fee",
+                "Price alerts",
+                "24h price lock on select hotels"
+              ],
+              "cta": "Choose Budget",
+              "featured": false
+            },
+            {
+              "name": "Everyday Value",
+              "monthlyPrice": "₹299/mo",
+              "annualPrice": "₹2,980/yr",
+              "period": "Monthly / Annual",
+              "description": "Great for frequent travelers. Exclusive deals and 24/7 chat support.",
+              "features": [
+                "No booking fee",
+                "Exclusive deals",
+                "24/7 chat support",
+                "Priority reminders"
+              ],
+              "cta": "Choose Value",
+              "featured": true
+            }
+          ]
+        },
+        {
+          "type": "cta",
+          "heading": "Ready to search flights now?",
+          "subheading": null,
+          "primaryCta": "Search Flights",
+          "secondaryCta": "See hotel deals",
+          "reassurance": "No booking fee. Taxes shown upfront. Pay securely."
+        }
+      ],
+      "footer": {
+        "tagline": "FlyBudget India – budget travel, made simple.",
+        "columns": [
+          {
+            "title": "Company",
+            "links": [
+              "About",
+              "Careers",
+              "Press"
+            ]
+          },
+          {
+            "title": "Support",
+            "links": [
+              "Help Center",
+              "Contact",
+              "Cancellation Policy"
+            ]
+          },
+          {
+            "title": "Legal",
+            "links": [
+              "Terms",
+              "Privacy"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

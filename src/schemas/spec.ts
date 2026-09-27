@@ -1,0 +1,229 @@
+import { z } from 'zod'
+
+/**
+ * The landing page spec.
+ *
+ * The generative model fills in COPY and CONTENT only. Structure — which hero,
+ * which sections, in what order — is decided by Jev and resolved in
+ * `directions.ts`, then merged in by `compose.ts`. The model is never asked to
+ * pick a layout, and never emits executable code.
+ */
+
+export const SECTION_TYPES = [
+  'search',
+  'featureGrid',
+  'socialProof',
+  'stats',
+  'pricing',
+  'testimonials',
+  'showcase',
+  'comparison',
+  'explainer',
+  'faq',
+  'cta',
+] as const
+
+export type SectionType = (typeof SECTION_TYPES)[number]
+
+const link = z.object({ label: z.string(), href: z.string().default('#') })
+
+export const themeSpec = z.object({
+  /** Resolved from Jev's visualDirection — not chosen by the model. */
+  direction: z.enum([
+    'clean_utility',
+    'warm_editorial',
+    'bold_confident',
+    'technical_precise',
+  ]),
+  accent: z.enum(['blue', 'emerald', 'amber', 'violet', 'rose', 'slate']),
+})
+
+export const navigationSpec = z.object({
+  wordmark: z.string(),
+  links: z.array(link).max(6).default([]),
+  ctaLabel: z.string(),
+  sticky: z.boolean().default(true),
+})
+
+export const heroSpec = z.object({
+  /** Resolved from Jev's heroStrategy. Selects the component. */
+  variant: z.enum(['search_first', 'value_prop', 'social_proof', 'product_demo']),
+  eyebrow: z.string().nullable().default(null),
+  headline: z.string(),
+  subheadline: z.string(),
+  primaryCta: z.string(),
+  secondaryCta: z.string().nullable().default(null),
+  /** Trust chips shown under the hero when Jev says trust is the barrier. */
+  trustSignals: z.array(z.string()).max(4).default([]),
+  /** For search_first: the fields the hero's search control should show. */
+  searchFields: z
+    .array(
+      z.object({
+        label: z.string(),
+        placeholder: z.string(),
+        kind: z.enum(['text', 'date', 'counter', 'select']),
+        options: z.array(z.string()).max(8).default([]),
+      }),
+    )
+    .max(4)
+    .default([]),
+  /** For product_demo: labelled steps of a fake interface. */
+  demoSteps: z.array(z.object({ label: z.string(), detail: z.string() })).max(4).default([]),
+})
+
+const sectionBase = { heading: z.string(), subheading: z.string().nullable().default(null) }
+
+export const sectionSpec = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('search'),
+    ...sectionBase,
+    tabs: z.array(z.string()).max(4).default([]),
+    fields: z
+      .array(
+        z.object({
+          label: z.string(),
+          placeholder: z.string(),
+          kind: z.enum(['text', 'date', 'counter', 'select']),
+          options: z.array(z.string()).max(8).default([]),
+        }),
+      )
+      .max(4)
+      .default([]),
+    submitLabel: z.string(),
+  }),
+  z.object({
+    type: z.literal('featureGrid'),
+    ...sectionBase,
+    items: z
+      .array(
+        z.object({
+          icon: z.string(),
+          title: z.string(),
+          body: z.string(),
+        }),
+      )
+      .min(2)
+      .max(6),
+  }),
+  z.object({
+    type: z.literal('socialProof'),
+    ...sectionBase,
+    variant: z.enum(['customer_logos', 'testimonials', 'metrics', 'ratings_reviews']),
+    logos: z.array(z.string()).max(8).default([]),
+    quotes: z
+      .array(z.object({ quote: z.string(), name: z.string(), role: z.string() }))
+      .max(4)
+      .default([]),
+    metrics: z
+      .array(z.object({ value: z.string(), label: z.string() }))
+      .max(4)
+      .default([]),
+    rating: z
+      .object({ score: z.string(), count: z.string(), source: z.string() })
+      .nullable()
+      .default(null),
+  }),
+  z.object({
+    type: z.literal('stats'),
+    ...sectionBase,
+    items: z.array(z.object({ value: z.string(), label: z.string() })).min(2).max(4),
+  }),
+  z.object({
+    type: z.literal('pricing'),
+    ...sectionBase,
+    /** Interactive monthly/annual toggle when present. */
+    billingToggle: z.boolean().default(true),
+    annualDiscountLabel: z.string().nullable().default(null),
+    plans: z
+      .array(
+        z.object({
+          name: z.string(),
+          monthlyPrice: z.string(),
+          annualPrice: z.string(),
+          period: z.string(),
+          description: z.string(),
+          features: z.array(z.string()).min(2).max(6),
+          cta: z.string(),
+          featured: z.boolean().default(false),
+        }),
+      )
+      .min(2)
+      .max(4),
+  }),
+  z.object({
+    type: z.literal('testimonials'),
+    ...sectionBase,
+    items: z
+      .array(z.object({ quote: z.string(), name: z.string(), role: z.string() }))
+      .min(2)
+      .max(6),
+  }),
+  z.object({
+    type: z.literal('showcase'),
+    ...sectionBase,
+    /** Browsable cards — destinations, products, templates, courses. */
+    categories: z.array(z.string()).max(5).default([]),
+    items: z
+      .array(
+        z.object({
+          title: z.string(),
+          meta: z.string(),
+          detail: z.string(),
+          category: z.string(),
+          badge: z.string().nullable().default(null),
+        }),
+      )
+      .min(3)
+      .max(9),
+  }),
+  z.object({
+    type: z.literal('comparison'),
+    ...sectionBase,
+    columns: z.array(z.string()).min(2).max(3),
+    rows: z
+      .array(z.object({ label: z.string(), values: z.array(z.string()).min(2).max(3) }))
+      .min(3)
+      .max(7),
+  }),
+  z.object({
+    type: z.literal('explainer'),
+    ...sectionBase,
+    steps: z
+      .array(z.object({ title: z.string(), body: z.string() }))
+      .min(2)
+      .max(4),
+  }),
+  z.object({
+    type: z.literal('faq'),
+    ...sectionBase,
+    items: z.array(z.object({ q: z.string(), a: z.string() })).min(3).max(6),
+  }),
+  z.object({
+    type: z.literal('cta'),
+    ...sectionBase,
+    primaryCta: z.string(),
+    secondaryCta: z.string().nullable().default(null),
+    reassurance: z.string().nullable().default(null),
+  }),
+])
+
+export const footerSpec = z.object({
+  tagline: z.string(),
+  columns: z
+    .array(z.object({ title: z.string(), links: z.array(z.string()).max(5) }))
+    .max(4)
+    .default([]),
+})
+
+export const landingPageSpec = z.object({
+  theme: themeSpec,
+  navigation: navigationSpec,
+  hero: heroSpec,
+  sections: z.array(sectionSpec).max(9),
+  footer: footerSpec,
+})
+
+export type LandingPageSpec = z.infer<typeof landingPageSpec>
+export type SectionSpec = z.infer<typeof sectionSpec>
+export type HeroSpec = z.infer<typeof heroSpec>
+export type ThemeSpec = z.infer<typeof themeSpec>
