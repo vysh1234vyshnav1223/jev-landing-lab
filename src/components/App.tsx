@@ -20,9 +20,10 @@ import type { BriefInput } from '@/schemas/brief'
 /**
  * Idle is the landing page. Once a brief is submitted the surface becomes the
  * workbench — generation and result render inside the same shell, so the tool
- * never appears to navigate. The result is Jev's own page: one strategy, its
- * highest-probability answer on every decision. A person can override
- * individual decisions in the inspector and compare the result against Jev's.
+ * never appears to navigate. The result is Jev's own page: the strategy Jev
+ * ranked first, executed under its blueprint. In the inspector a person can
+ * pick another candidate strategy and/or step Jev's execution decisions, then
+ * compare that page against Jev's.
  *
  * The landing is a prop so landing experiments can share this flow. With
  * `holdRun`, the landing stays on screen while generation runs and gets the
@@ -41,7 +42,7 @@ export function App({
   const [inspectorOpen, setInspectorOpen] = useState(true)
   const [viewport, setViewport] = useState<'desktop' | 'mobile'>('desktop')
   const [showCompare, setShowCompare] = useState(false)
-  const { overrides, setOverride, clear, compare, run } = useCompare()
+  const { strategyId, setStrategy, overrides, setOverride, clear, compare, run } = useCompare()
   const reduced = useReducedMotion()
 
   function start(input: BriefInput) {
@@ -53,12 +54,15 @@ export function App({
     return <Landing onSubmit={start} run={state} />
   }
 
-  const ready = Boolean(state.phase === 'ready' && state.decisions && state.direction && state.spec)
+  const ready = Boolean(
+    state.phase === 'ready' && state.decisions && state.judgment && state.hypotheses && state.blueprint && state.spec,
+  )
+  const probabilityOf = (id: string) => state.judgment?.ranked.find((r) => r.id === id)?.probability ?? null
 
   function runCompare() {
-    if (!state.brief || !state.decisions) return
+    if (!state.brief || !state.hypotheses || !state.decisions || !state.judgment) return
     setShowCompare(true)
-    void run(state.brief, state.decisions)
+    void run(state.brief, state.hypotheses, state.decisions, state.judgment.selected)
   }
 
   function closeCompare() {
@@ -73,7 +77,7 @@ export function App({
   return (
     <Workbench
       inspector={
-        ready && state.decisions ? (
+        ready && state.decisions && state.judgment && state.hypotheses ? (
           <AnimatePresence initial={false}>
             {inspectorOpen && (
               <motion.aside
@@ -86,6 +90,10 @@ export function App({
                 <div className="h-full w-[320px]">
                   <DecisionPanel
                     decisions={state.decisions}
+                    judgment={state.judgment}
+                    hypotheses={state.hypotheses}
+                    chosenStrategy={strategyId}
+                    onChooseStrategy={setStrategy}
                     overrides={overrides}
                     onChoose={setOverride}
                     onClear={clearOverrides}
@@ -110,7 +118,7 @@ export function App({
         onRestart={reset}
         showCompare={showCompare}
         onExitCompare={closeCompare}
-        canCompare={overrides.size > 0}
+        canCompare={overrides.size > 0 || strategyId !== null}
         onCompare={runCompare}
       />
 
@@ -138,10 +146,20 @@ export function App({
 
           {ready && showCompare && (
             <motion.div key="compare" {...phaseMotion(reduced)} className="h-full">
-              {compare.status === 'ready' && state.spec ? (
+              {compare.status === 'ready' && state.spec && state.blueprint ? (
                 <CompareView
-                  jevSpec={state.spec}
-                  editedSpec={compare.spec}
+                  jev={{
+                    spec: state.spec,
+                    blueprint: state.blueprint,
+                    critique: state.critique,
+                    probability: probabilityOf(state.blueprint.strategyId),
+                  }}
+                  alternative={{
+                    spec: compare.spec,
+                    blueprint: compare.blueprint,
+                    critique: compare.critique,
+                    probability: probabilityOf(compare.blueprint.strategyId),
+                  }}
                   departures={compare.departures}
                   onClose={closeCompare}
                 />
@@ -158,7 +176,7 @@ export function App({
               ) : (
                 <div className="flex h-full items-center justify-center gap-2 text-[0.8125rem] text-[var(--lab-text-faint)]">
                   <StatusDot status="active" />
-                  Building your version…
+                  Building the alternative: blueprint, compose, critique…
                 </div>
               )}
             </motion.div>
@@ -325,6 +343,30 @@ function StatusLine({
         <>
           <StatusDivider />
           <StatusCell label="cost" value={`$${meta.cost.toFixed(6)}`} />
+        </>
+      )}
+
+      {state.blueprint && (
+        <>
+          <StatusDivider />
+          <StatusCell label="strategy" value={state.blueprint.strategyName} />
+        </>
+      )}
+
+      {state.critique && (
+        <>
+          <StatusDivider />
+          <StatusCell
+            label="critique"
+            value={
+              !state.critique.valid
+                ? `${state.critique.remaining.length} unresolved`
+                : state.critique.repaired.length
+                  ? 'repaired'
+                  : 'clean'
+            }
+            tone={state.critique.valid ? 'positive' : 'danger'}
+          />
         </>
       )}
 

@@ -2,21 +2,30 @@
 
 import { useCallback, useRef, useState } from 'react'
 import { apiKeyHeaders } from '@/lib/apiKey'
-import type { ResolvedDirection } from '@/lib/jev/directions'
 import type { StageEvent } from '@/lib/generation/pipeline'
+import type { CritiqueReport, PageBlueprint } from '@/schemas/blueprint'
 import type { BriefInput, ProductBrief } from '@/schemas/brief'
 import type { DecisionSet } from '@/schemas/decisions'
 import type { LandingPageSpec } from '@/schemas/spec'
+import type { StrategyHypothesis, StrategyJudgment } from '@/schemas/strategy'
 
 export type Phase = 'idle' | 'running' | 'ready' | 'error'
 
-export type StageKey = 'interpreting' | 'deciding' | 'resolving' | 'composing'
+export type StageKey =
+  | 'interpreting'
+  | 'hypothesizing'
+  | 'deciding'
+  | 'blueprinting'
+  | 'composing'
+  | 'critiquing'
 
 export const STAGES: { key: StageKey; label: string; detail: string }[] = [
   { key: 'interpreting', label: 'Understanding the brief', detail: 'Extracting product context' },
-  { key: 'deciding', label: 'Jev is making design decisions', detail: '12 questions, one pass' },
-  { key: 'resolving', label: 'Resolving the strategy', detail: "Jev's highest-probability answers" },
-  { key: 'composing', label: 'Generating the interface', detail: 'Writing copy for the page' },
+  { key: 'hypothesizing', label: 'Proposing strategies', detail: 'Materially different ways to make the case' },
+  { key: 'deciding', label: 'Jev is judging the strategies', detail: 'Seven criteria and six execution calls, one pass' },
+  { key: 'blueprinting', label: 'Locking the blueprint', detail: "Jev's pick, turned into rules the page must follow" },
+  { key: 'composing', label: 'Executing the blueprint', detail: 'Writing copy inside the fixed structure' },
+  { key: 'critiquing', label: 'Checking fidelity', detail: 'Rules, review, targeted repair' },
 ]
 
 export type StageState = 'pending' | 'active' | 'done' | 'error'
@@ -25,9 +34,12 @@ export type GenerationState = {
   phase: Phase
   stages: Record<StageKey, StageState>
   brief: ProductBrief | null
+  hypotheses: StrategyHypothesis[] | null
   decisions: DecisionSet | null
-  direction: ResolvedDirection | null
+  judgment: StrategyJudgment | null
+  blueprint: PageBlueprint | null
   spec: LandingPageSpec | null
+  critique: CritiqueReport | null
   error: { code: string; message: string; stage: string } | null
 }
 
@@ -35,14 +47,19 @@ const INITIAL: GenerationState = {
   phase: 'idle',
   stages: {
     interpreting: 'pending',
+    hypothesizing: 'pending',
     deciding: 'pending',
-    resolving: 'pending',
+    blueprinting: 'pending',
     composing: 'pending',
+    critiquing: 'pending',
   },
   brief: null,
+  hypotheses: null,
   decisions: null,
-  direction: null,
+  judgment: null,
+  blueprint: null,
   spec: null,
+  critique: null,
   error: null,
 }
 
@@ -128,8 +145,10 @@ export function useGeneration() {
           next.error = { code: event.code, message: event.message, stage: event.stage }
           // Jev may have succeeded before a later stage failed — keep what we
           // have so the decision panel can still be shown.
-          if ('decisions' in event && event.decisions) next.decisions = event.decisions
-          if ('direction' in event && event.direction) next.direction = event.direction
+          if (event.hypotheses) next.hypotheses = event.hypotheses
+          if (event.decisions) next.decisions = event.decisions
+          if (event.judgment) next.judgment = event.judgment
+          if (event.blueprint) next.blueprint = event.blueprint
           return next
         }
 
@@ -140,17 +159,28 @@ export function useGeneration() {
             next.stages.interpreting = 'done'
             next.brief = event.brief
             break
+          case 'hypothesizing':
+            next.stages.hypothesizing = 'done'
+            next.hypotheses = event.hypotheses
+            break
           case 'deciding':
             next.stages.deciding = 'done'
             next.decisions = event.decisions
+            next.judgment = event.judgment
             break
-          case 'resolving':
-            next.stages.resolving = 'done'
-            next.direction = event.direction
+          case 'blueprinting':
+            next.stages.blueprinting = 'done'
+            next.blueprint = event.blueprint
             break
           case 'composing':
+            // The draft; critiquing replaces it with the checked page.
             next.stages.composing = 'done'
             next.spec = event.spec
+            break
+          case 'critiquing':
+            next.stages.critiquing = 'done'
+            next.spec = event.spec
+            next.critique = event.critique
             break
           case 'done':
             next.phase = 'ready'

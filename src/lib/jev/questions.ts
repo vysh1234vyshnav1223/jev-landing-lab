@@ -1,12 +1,15 @@
 /**
- * The decision surface handed to Jev.
+ * Jev's execution questions — the fixed half of the decision surface.
  *
- * Every question here is atomic and narrowly scoped — TypeSafe's guidance is to
+ * The strategic half (WHICH page to build) is generated per run from the
+ * candidate strategies; see `strategies.ts`. These questions refine how the
+ * chosen strategy is executed, and several of them are gates: the blueprint
+ * reads `offerProminence` to decide whether a pricing section may exist at
+ * all, `trustIsPrimaryBarrier` to require hero trust signals, and so on.
+ *
+ * Every question is atomic and narrowly scoped — TypeSafe's guidance is to
  * decompose multi-factor judgements into separate questions and recombine them
- * with ordinary code, which is exactly what `directions.ts` does.
- *
- * All of these travel in ONE request. Jev evaluates them in parallel with no
- * latency penalty, so there is no reason to split them up.
+ * with ordinary code. Both halves travel in ONE request.
  */
 
 export type ChoiceQuestion = {
@@ -31,36 +34,6 @@ export type ScoreQuestion = {
 export type JevQuestion = ChoiceQuestion | NoulQuestion | ScoreQuestion
 
 export const QUESTIONS = {
-  heroStrategy: {
-    type: 'choice',
-    instructions:
-      'Which hero strategy will best move a first-time visitor toward the primary conversion action?',
-    criteria: {
-      search_first:
-        'Visitors already know what they want; putting the core tool or search directly in the hero beats persuasion',
-      value_prop:
-        'The product needs to be explained before anyone will act; a clear headline and benefit statement lead',
-      social_proof:
-        'Credibility is the main thing standing between the visitor and the action; lead with proof others trust it',
-      product_demo:
-        'Seeing the product work is the most convincing argument; lead with a visual or interactive demonstration',
-    },
-  },
-  ctaStrategy: {
-    type: 'choice',
-    instructions:
-      'What should the primary call to action ask the visitor to do?',
-    criteria: {
-      direct_action:
-        'Ask for the core conversion action immediately — the visitor is ready',
-      free_trial:
-        'Ask for a low-commitment trial or free tier before asking for money',
-      explore:
-        'Ask the visitor to browse or discover first; the decision needs more input',
-      contact:
-        'Ask the visitor to talk to a person; the purchase is considered, high-value or bespoke',
-    },
-  },
   socialProofType: {
     type: 'choice',
     instructions:
@@ -74,19 +47,6 @@ export const QUESTIONS = {
         'Hard numbers — users, volume, ratings; the audience responds to scale',
       ratings_reviews:
         'Aggregate star ratings and review counts; consumer purchase with many alternatives',
-    },
-  },
-  contentHierarchy: {
-    type: 'choice',
-    instructions:
-      'What should the page lead with after the hero, given how this audience makes decisions?',
-    criteria: {
-      utility:
-        'Lead with what the product does and how to use it — function over feeling',
-      discovery:
-        'Lead with browsing, inspiration and options — the visitor is still choosing',
-      persuasion:
-        'Lead with benefits, proof and objection handling — the visitor needs convincing',
     },
   },
   visualDirection: {
@@ -104,19 +64,6 @@ export const QUESTIONS = {
         'Monospace accents, fine borders, restrained palette — reads as built for experts',
     },
   },
-  pageArchitecture: {
-    type: 'choice',
-    instructions:
-      'How much page does this product need to make its case?',
-    criteria: {
-      focused:
-        'A short page — hero, proof, one CTA. More would dilute a simple decision',
-      standard:
-        'A conventional mid-length page covering features, proof and pricing',
-      comprehensive:
-        'A long page — the decision is complex and needs features, comparison, FAQ and objection handling',
-    },
-  },
   navigationComplexity: {
     type: 'score',
     instructions:
@@ -125,16 +72,6 @@ export const QUESTIONS = {
       'Almost none — a wordmark and a single action; anything more competes with conversion',
       'Moderate — a few destinations plus the primary action',
       'Full — multiple sections and categories; the visitor genuinely needs to navigate',
-    ],
-  },
-  interactionDensity: {
-    type: 'score',
-    instructions:
-      'How interactive should this page be for this audience and product?',
-    criteria: [
-      'Static and editorial — reading, not operating; interaction would be noise',
-      'Some interactive affordances — tabs, toggles, a few controls that aid the decision',
-      'Heavily interactive — the page should behave like the product itself',
     ],
   },
   offerProminence: {
@@ -155,15 +92,6 @@ export const QUESTIONS = {
       true: 'The audience is sceptical, the category has known bad actors, money or sensitive data is at stake, or the brand is unknown',
       false:
         'The audience already trusts the category; the barrier is price, effort, awareness or fit rather than credibility',
-    },
-  },
-  audienceIsPriceSensitive: {
-    type: 'noul',
-    instructions: 'Is this audience primarily motivated by price?',
-    criteria: {
-      true: 'The audience compares on cost, seeks deals or discounts, or has a constrained budget',
-      false:
-        'The audience buys on quality, capability, convenience or status rather than price',
     },
   },
   requiresEducation: {
@@ -187,3 +115,13 @@ export type OptionsOf<K extends QuestionId> =
     : never
 
 export const QUESTION_IDS = Object.keys(QUESTIONS) as QuestionId[]
+
+/** Short display names for the inspector, compare view and examples page. */
+export const QUESTION_TITLES: Record<string, string> = {
+  socialProofType: 'Social proof',
+  visualDirection: 'Visual direction',
+  navigationComplexity: 'Navigation',
+  offerProminence: 'Offer prominence',
+  trustIsPrimaryBarrier: 'Trust is the barrier',
+  requiresEducation: 'Needs education',
+}

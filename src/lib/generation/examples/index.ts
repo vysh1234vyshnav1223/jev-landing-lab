@@ -1,18 +1,23 @@
-import travel from './travel.json'
+import sports from './sports.json'
 import saas from './saas.json'
+import hotel from './hotel.json'
+import api from './api.json'
+import subscription from './subscription.json'
 import skincare from './skincare.json'
+import type { CritiqueReport, PageBlueprint } from '@/schemas/blueprint'
 import type { ProductBrief } from '@/schemas/brief'
 import type { DecisionSet } from '@/schemas/decisions'
 import type { LandingPageSpec } from '@/schemas/spec'
+import type { StrategyHypothesis, StrategyJudgment } from '@/schemas/strategy'
 
 /**
- * Three real runs of the actual pipeline, captured once and frozen — not
- * synthetic fixtures. Real Jev decisions (real cost, ~$0.00007 each), real
- * generated copy. Served statically so the examples page needs no API key
- * and costs nothing per visitor, however many people look at it.
+ * Six real runs of the actual pipeline, captured once and frozen — not
+ * synthetic fixtures. Real candidate strategies, real Jev judgment, real
+ * blueprints, real generated and critiqued pages. Served statically so the
+ * examples page needs no API key and costs nothing per visitor.
  *
  * Regenerate with `npx tsx --env-file=.env.local scripts/capture-examples.mts`
- * (see that file) if `QUESTIONS`, the spec schema, or these briefs change.
+ * (see that file) if the questions, archetypes, schemas or these briefs change.
  */
 export type CapturedExample = {
   id: string
@@ -20,9 +25,13 @@ export type CapturedExample = {
   brief: string
   result: {
     brief: ProductBrief
+    hypotheses: StrategyHypothesis[]
     decisions: DecisionSet
+    judgment: StrategyJudgment
+    blueprint: PageBlueprint
     spec: LandingPageSpec
+    critique: CritiqueReport
   }
 }
 
-export const CAPTURED_EXAMPLES = [travel, saas, skincare] as unknown as CapturedExample[]
+export const CAPTURED_EXAMPLES = [sports, saas, hotel, api, subscription, skincare] as unknown as CapturedExample[]

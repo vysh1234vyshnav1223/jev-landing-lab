@@ -1,9 +1,12 @@
 import type { z } from 'zod'
-import type { Strategy } from '@/lib/jev/directions'
+import { withIds } from '@/lib/generation/hypothesize'
+import type { PageBlueprint } from '@/schemas/blueprint'
 import type { ProductBrief } from '@/schemas/brief'
+import type { ConversionApproach, StrategyHypothesis } from '@/schemas/strategy'
 import {
   landingPageSpec,
   type LandingPageSpec,
+  type ProofVariant,
   sectionSpec,
   type SectionType,
 } from '@/schemas/spec'
@@ -11,12 +14,12 @@ import {
 /**
  * Offline fixtures (USE_FIXTURES=1).
  *
- * Canned structure and copy. The live path lets the model choose sections;
- * offline there is no model, so this is one fixed plausible page. Free models
- * allow 50 requests/day; UI iteration should not spend them.
+ * Canned strategies and copy for one product (Wayfare). Everything downstream
+ * of them is real: Jev's fixture answers are judged by the same code, the
+ * blueprint is built by the same code, and the fixture page follows that
+ * blueprint's sections, order, hero and gates exactly. Free models allow 50
+ * requests/day; UI iteration should not spend them.
  */
-
-const FIXTURE_SECTIONS: SectionType[] = ['featureGrid', 'socialProof', 'pricing', 'faq', 'cta']
 
 export function fixtureBrief(): ProductBrief {
   return {
@@ -33,6 +36,63 @@ export function fixtureBrief(): ProductBrief {
     competitors: ['MakeMyTrip', 'Goibibo', 'Cleartrip'],
     priceContext: 'Competes on lowest visible fare; no booking fee',
   }
+}
+
+/** Three genuinely different arguments for the same product. */
+export function fixtureHypotheses(): StrategyHypothesis[] {
+  return withIds([
+    {
+      name: 'Search first, prove it after',
+      archetype: 'marketplace_search',
+      thesis: 'Visitors arrive ready to search; get them searching, then justify the fare with proof.',
+      persuasion: 'Utility first, transparency as reassurance',
+      audienceFraming: 'A traveller with a route in mind who wants the lowest real fare',
+      narrative: ['Search now', 'See what routes cost this month', 'Why our fare is the real fare', 'Others trust it', 'Search'],
+      hero: { variant: 'search_first', purpose: 'Put the flight search above the fold' },
+      conversion: { approach: 'direct_action', rationale: 'Intent is already high; any detour costs searches.' },
+      sections: [
+        { type: 'showcase', purpose: 'Show real routes and fares this month', essential: true },
+        { type: 'comparison', purpose: 'Prove no booking fee against typical booking sites', essential: true },
+        { type: 'socialProof', purpose: 'Show that millions of trips were booked', essential: true },
+        { type: 'faq', purpose: 'Answer fee and cancellation doubts', essential: false },
+        { type: 'cta', purpose: 'Send them back to search', essential: true },
+      ],
+    },
+    {
+      name: 'The fare transparency argument',
+      archetype: 'marketplace_search',
+      thesis: 'Travellers have been burned by checkout surprises; lead with why this fare is the fare.',
+      persuasion: 'Risk reversal through radical transparency',
+      audienceFraming: 'A sceptical traveller who has been hit by hidden fees before',
+      narrative: ['Name the hidden-fee problem', 'Show how pricing works here', 'Compare side by side', 'Stories from travellers', 'Search'],
+      hero: { variant: 'value_prop', purpose: 'State the no-fee promise plainly' },
+      conversion: { approach: 'direct_action', rationale: 'Once trust is established, the search is the natural next step.' },
+      sections: [
+        { type: 'explainer', purpose: 'Explain how fares are sourced and shown', essential: true },
+        { type: 'comparison', purpose: 'Line up total cost against typical booking sites', essential: true },
+        { type: 'testimonials', purpose: 'Travellers who saved on a real route', essential: true },
+        { type: 'search', purpose: 'Let the convinced visitor search', essential: true },
+        { type: 'cta', purpose: 'Close with the promise', essential: false },
+      ],
+    },
+    {
+      name: 'Deal discovery',
+      archetype: 'marketplace_search',
+      thesis: 'Many visitors are flexible; inspire a trip with the cheapest routes this month.',
+      persuasion: 'Desire through concrete, cheap options',
+      audienceFraming: 'A flexible traveller browsing for where to go next',
+      narrative: ['Where could you go', 'Routes worth booking', 'What makes the price low', 'Scale', 'Search a route'],
+      hero: { variant: 'value_prop', purpose: 'Invite browsing by price' },
+      conversion: { approach: 'explore', rationale: 'Flexible travellers decide after browsing.' },
+      sections: [
+        { type: 'showcase', purpose: 'Carousel of the cheapest routes this month', essential: true },
+        { type: 'featureGrid', purpose: 'Fare alerts, flexible dates, free cancellation', essential: true },
+        { type: 'stats', purpose: 'Scale of fares compared', essential: false },
+        { type: 'search', purpose: 'Search once a route appeals', essential: true },
+        { type: 'cta', purpose: 'Set a fare alert', essential: true },
+      ],
+    },
+  ])
 }
 
 const HEADLINES = [
@@ -54,7 +114,33 @@ const SEARCH_FIELDS = [
   { label: 'Travellers', placeholder: '1 adult', kind: 'counter' as const, options: [] },
 ]
 
-function section(type: SectionType): z.input<typeof sectionSpec> {
+const PROOF: Record<ProofVariant, object> = {
+  ratings_reviews: {
+    variant: 'ratings_reviews',
+    rating: { score: '4.6', count: '61,400 reviews', source: 'Google Play' },
+  },
+  metrics: {
+    variant: 'metrics',
+    metrics: [
+      { value: '2.8M', label: 'Trips booked' },
+      { value: '40+', label: 'Airlines compared' },
+      { value: '0', label: 'Booking fees' },
+    ],
+  },
+  testimonials: {
+    variant: 'testimonials',
+    quotes: [
+      { quote: 'The fare on the search page was the fare I paid.', name: 'Ananya R.', role: 'Bengaluru' },
+      { quote: 'Moved my trip by a day and saved 3,200 rupees.', name: 'Karthik M.', role: 'Chennai' },
+    ],
+  },
+  customer_logos: {
+    variant: 'customer_logos',
+    logos: ['Northwind Travel Desk', 'Ashoka Offsites', 'Monsoon Events', 'Paper Plane Co.'],
+  },
+}
+
+function section(type: SectionType, proof: ProofVariant = 'ratings_reviews'): z.input<typeof sectionSpec> {
   switch (type) {
     case 'search':
       return {
@@ -98,11 +184,12 @@ function section(type: SectionType): z.input<typeof sectionSpec> {
         type: 'socialProof',
         heading: 'Trusted on 2.8 million trips',
         subheading: null,
-        variant: 'ratings_reviews',
+        variant: proof,
         logos: [],
         quotes: [],
         metrics: [],
-        rating: { score: '4.6', count: '61,400 reviews', source: 'Google Play' },
+        rating: null,
+        ...PROOF[proof],
       }
     case 'stats':
       return {
@@ -292,26 +379,69 @@ function section(type: SectionType): z.input<typeof sectionSpec> {
         secondaryCta: 'Set a fare alert',
         reassurance: 'No account needed to search. No booking fee, ever.',
       }
+    case 'story':
+      return {
+        type: 'story',
+        heading: 'The fare you see should be the fare you pay',
+        subheading: null,
+        eyebrow: 'Why Wayfare',
+        paragraphs: [
+          'Most booking sites show a low fare and add to it at checkout. We show the total from the first search.',
+        ],
+        facts: [
+          { label: 'Booking fee', value: 'None' },
+          { label: 'Airlines', value: '40+' },
+        ],
+      }
+    case 'useCases':
+      return {
+        type: 'useCases',
+        heading: 'However you travel',
+        subheading: null,
+        items: [
+          { icon: 'briefcase', title: 'Work trips', body: 'Morning departures, flexible fares.', recommendation: 'Filter by refundable' },
+          { icon: 'sun', title: 'Weekend escapes', body: 'Short hops under two hours.', recommendation: 'Browse the month view' },
+        ],
+      }
+    case 'codeSample':
+      return {
+        type: 'codeSample',
+        heading: 'Fares, as data',
+        subheading: null,
+        snippets: [{ label: 'curl', code: 'curl https://api.wayfare.example/fares?from=DEL&to=GOI' }],
+      }
+    case 'integrations':
+      return {
+        type: 'integrations',
+        heading: 'Where your bookings go',
+        subheading: null,
+        items: [
+          { name: 'Calendar', detail: 'Add trips automatically' },
+          { name: 'Email', detail: 'Tickets and changes' },
+          { name: 'WhatsApp', detail: 'Gate and delay alerts' },
+        ],
+      }
   }
 }
 
-function primaryCtaFor(ctaStrategy: string): string {
-  if (ctaStrategy === 'explore') return 'Browse routes'
-  if (ctaStrategy === 'free_trial') return 'Try fare alerts'
-  if (ctaStrategy === 'contact') return 'Talk to us'
-  return 'Search flights'
+const PRIMARY_CTA: Record<ConversionApproach, string> = {
+  direct_action: 'Search flights',
+  free_trial: 'Try fare alerts',
+  explore: 'Browse routes',
+  contact: 'Talk to us',
 }
 
 /**
- * Builds one fixture spec from a strategy. `variant` only picks among the
- * canned copy pools so an edited strategy still reads as a distinct page
- * rather than an exact repeat of Jev's — it carries no other meaning.
+ * Builds one fixture spec that follows `bp` exactly: its slots in order, its
+ * hero variant, theme, proof form, navigation cap and trust gate. `variant`
+ * only picks among the canned copy pools so an alternative strategy still
+ * reads as a distinct page — it carries no other meaning.
  */
-export function fixtureSpec(strategy: Strategy, variant = 0): LandingPageSpec {
-  const s = strategy
+export function fixtureSpec(bp: PageBlueprint, variant = 0): LandingPageSpec {
+  const hero = bp.hero.variant
 
   return landingPageSpec.parse({
-    theme: { direction: s.visualDirection, accent: 'blue' },
+    theme: { direction: bp.visual.direction, accent: 'blue' },
     navigation: {
       wordmark: 'Wayfare',
       links: [
@@ -320,23 +450,23 @@ export function fixtureSpec(strategy: Strategy, variant = 0): LandingPageSpec {
         { label: 'Deals', href: '#' },
         { label: 'Alerts', href: '#' },
         { label: 'Help', href: '#' },
-      ].slice(0, [1, 3, 5][s.navigationComplexity] ?? 3),
-      ctaLabel: s.ctaStrategy === 'contact' ? 'Talk to us' : 'Sign in',
-      sticky: s.navigationComplexity > 0,
+      ].slice(0, bp.navigation.maxLinks),
+      ctaLabel: bp.conversion.approach === 'contact' ? 'Talk to us' : 'Sign in',
+      sticky: bp.navigation.sticky,
     },
     hero: {
-      variant: s.heroStrategy,
-      eyebrow: s.audienceIsPriceSensitive ? 'No booking fee' : null,
+      variant: hero,
+      eyebrow: bp.offer.pricesAllowed ? 'No booking fee' : null,
       headline: HEADLINES[variant % HEADLINES.length],
       subheadline: SUBHEADS[variant % SUBHEADS.length],
-      primaryCta: primaryCtaFor(s.ctaStrategy),
+      primaryCta: PRIMARY_CTA[bp.conversion.approach],
       secondaryCta: 'See fares by month',
-      trustSignals: s.trustIsPrimaryBarrier
+      trustSignals: bp.hero.trustSignals
         ? ['2.8M trips booked', '4.6 on Google Play', 'Free 24h cancellation']
         : [],
-      searchFields: s.heroStrategy === 'search_first' ? SEARCH_FIELDS : [],
+      searchFields: hero === 'search_first' ? SEARCH_FIELDS : [],
       demoSteps:
-        s.heroStrategy === 'product_demo'
+        hero === 'product_demo'
           ? [
               { label: 'Enter a route', detail: 'Delhi to Goa, sometime in March' },
               { label: 'We price the month', detail: '31 departures compared in 1.2s' },
@@ -344,7 +474,7 @@ export function fixtureSpec(strategy: Strategy, variant = 0): LandingPageSpec {
             ]
           : [],
     },
-    sections: FIXTURE_SECTIONS.map((t) => section(t)),
+    sections: bp.sections.map((slot) => ({ ...section(slot.type, bp.proof.type), slot: slot.key })),
     footer: {
       tagline: 'Wayfare compares domestic fares across 40+ airlines. No booking fee.',
       columns: [

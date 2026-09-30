@@ -6,7 +6,9 @@ import { briefInput } from '@/schemas/brief'
 export const runtime = 'nodejs'
 /** Generation takes real time; don't let a platform cache it. */
 export const dynamic = 'force-dynamic'
-export const maxDuration = 120
+// Up to four paid-model calls (hypothesize, compose, review, repair) plus
+// interpreting and Jev — each individually capped at 90s by the client.
+export const maxDuration = 300
 
 /**
  * Streams the pipeline as NDJSON — one JSON object per line, per stage event.

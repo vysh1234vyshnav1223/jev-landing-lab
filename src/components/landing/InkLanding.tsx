@@ -262,9 +262,12 @@ export function InkLanding({
         <span>jev</span>
         <a
           href="/examples"
-          className="rounded-full border border-current px-3 py-1.5 opacity-90 transition-opacity hover:opacity-100"
+          // Leaving mid-run drops the request and loses the page being built.
+          aria-disabled={running}
+          tabIndex={running ? -1 : undefined}
+          className={`rounded-full border border-current px-3 py-1.5 transition-opacity ${running ? 'pointer-events-none opacity-30' : 'opacity-90 hover:opacity-100'}`}
         >
-          See 3 real examples →
+          See 6 real examples →
         </a>
       </header>
 
@@ -309,10 +312,9 @@ export function InkLanding({
       </main>
 
       <footer className="relative mx-auto max-w-[60ch] pb-[4vh] text-center font-mono text-[0.6875rem] leading-[1.75] opacity-70">
-        Describe what you&rsquo;re building. Jev answers twelve questions about it &mdash;
-        hero, CTA, hierarchy, density &mdash; and returns a probability for every answer. Three
-        landing pages are built from those numbers in plain TypeScript. Change the numbers, the pages
-        change. Runs on your own OpenRouter key.
+        Describe what you&rsquo;re building. A model proposes a few page strategies, Jev judges them
+        and answers the execution questions, and plain TypeScript locks the winner into a blueprint
+        the page is written inside. Runs on your own OpenRouter key.
       </footer>
     </div>
   )

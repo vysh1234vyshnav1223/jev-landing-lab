@@ -4,13 +4,17 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/cn'
 import { CAPTURED_EXAMPLES } from '@/lib/generation/examples'
+import { BlueprintSummary } from '@/components/decisions/BlueprintSummary'
 import { DecisionReadout } from '@/components/decisions/DecisionReadout'
+import { StrategyList } from '@/components/decisions/StrategyList'
 import { Renderer } from '@/components/preview/Renderer'
 
 /**
- * Static preview of three real runs, captured once and frozen (see
+ * Static preview of six real runs, captured once and frozen (see
  * lib/generation/examples). No API key, no live call, no cost per visitor —
- * this is what BYOK visitors are deciding whether to try for themselves.
+ * this is what BYOK visitors are deciding whether to try for themselves. The
+ * sidebar shows why each page looks the way it does: the strategies proposed,
+ * Jev's judgment over them, the blueprint, and the execution decisions.
  */
 export default function ExamplesPage() {
   const [active, setActive] = useState(CAPTURED_EXAMPLES[0].id)
@@ -23,7 +27,7 @@ export default function ExamplesPage() {
           jev
         </Link>
         <span className="font-mono text-[0.75rem] text-[var(--lab-text-faint)]">
-          three real runs, no key needed
+          six real runs, no key needed
         </span>
         <div className="ml-auto flex gap-1">
           {CAPTURED_EXAMPLES.map((e) => (
@@ -56,12 +60,30 @@ export default function ExamplesPage() {
         </main>
 
         <aside className="hidden w-[380px] shrink-0 flex-col overflow-y-auto border-l border-[var(--lab-border)] bg-[var(--lab-1)] p-4 lg:flex">
-          <p className="mb-3 font-mono text-[0.6875rem] leading-relaxed text-[var(--lab-text-faint)]">
+          <p className="mb-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--lab-text-faint)]">
             {example.brief}
           </p>
+          <Heading>Strategies Jev judged</Heading>
+          <StrategyList judgment={example.result.judgment} hypotheses={example.result.hypotheses} />
+          <Heading>Blueprint</Heading>
+          <BlueprintSummary
+            label="Built from"
+            blueprint={example.result.blueprint}
+            probability={example.result.judgment.ranked[0].probability}
+            critique={example.result.critique}
+          />
+          <Heading>Execution</Heading>
           <DecisionReadout decisions={example.result.decisions} />
         </aside>
       </div>
     </div>
+  )
+}
+
+function Heading({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="mb-2 mt-6 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[var(--lab-text-faint)] first-of-type:mt-0">
+      {children}
+    </h2>
   )
 }

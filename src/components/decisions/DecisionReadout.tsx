@@ -1,3 +1,4 @@
+import { QUESTION_TITLES } from '@/lib/jev/questions'
 import type { Decision, DecisionSet } from '@/schemas/decisions'
 
 /**
@@ -7,20 +8,6 @@ import type { Decision, DecisionSet } from '@/schemas/decisions'
  * that do nothing.
  */
 
-const TITLES: Record<string, string> = {
-  heroStrategy: 'Hero strategy',
-  ctaStrategy: 'CTA strategy',
-  socialProofType: 'Social proof',
-  contentHierarchy: 'Content hierarchy',
-  visualDirection: 'Visual direction',
-  pageArchitecture: 'Page architecture',
-  navigationComplexity: 'Navigation',
-  interactionDensity: 'Interaction density',
-  offerProminence: 'Offer prominence',
-  trustIsPrimaryBarrier: 'Trust is the barrier',
-  audienceIsPriceSensitive: 'Price-sensitive audience',
-  requiresEducation: 'Needs education',
-}
 
 function topLabel(d: Decision): string {
   if (d.type === 'noul') return d.value ? 'Yes' : 'No'
@@ -37,7 +24,7 @@ export function DecisionReadout({ decisions }: { decisions: DecisionSet }) {
     <div className="flex flex-col gap-3">
       {Object.values(decisions.decisions).map((d) => (
         <div key={d.id} className="flex flex-col gap-0.5 text-[0.8125rem]">
-          <span className="text-[0.6875rem] text-[var(--lab-text-faint)]">{TITLES[d.id] ?? d.id}</span>
+          <span className="text-[0.6875rem] text-[var(--lab-text-faint)]">{QUESTION_TITLES[d.id] ?? d.id}</span>
           <div className="flex items-start justify-between gap-2">
             <span className="min-w-0 flex-1 text-[var(--lab-text)]">{topLabel(d)}</span>
             <span className="shrink-0 tabular-nums text-[var(--lab-accent)]">

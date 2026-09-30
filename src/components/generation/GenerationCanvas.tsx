@@ -5,15 +5,20 @@ import { Check, X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { transition } from '@/lib/motion/tokens'
 import { StatusDot } from '@/components/ui/primitives'
+import { SectionChips } from '@/components/decisions/StrategyList'
+import { critiqueLine } from '@/components/decisions/BlueprintSummary'
 import { STAGES, type GenerationState } from '@/hooks/useGeneration'
+import { ARCHETYPES } from '@/lib/generation/archetypes'
 import type { Decision } from '@/schemas/decisions'
+import type { StrategyJudgment } from '@/schemas/strategy'
 
 /**
  * The generation experience.
  *
  * Every stage here reflects real server progress streamed over NDJSON — the
- * decisions land on screen at the moment Jev returns them, not on a timer.
- * That honesty is the point: the user is watching the system work.
+ * strategies, Jev's judgment and the blueprint land on screen the moment each
+ * stage returns them, not on a timer. That honesty is the point: the user is
+ * watching the system work.
  */
 export function GenerationCanvas({ state }: { state: GenerationState }) {
   const reduced = useReducedMotion()
@@ -29,10 +34,11 @@ export function GenerationCanvas({ state }: { state: GenerationState }) {
       >
         <div className="mb-5">
           <h2 className="text-[1rem] font-semibold tracking-tight text-[var(--lab-text)]">
-            Decision pass
+            Strategy pass
           </h2>
           <p className="mt-0.5 text-[0.8125rem] text-[var(--lab-text-muted)]">
-            Twelve questions to Jev in one request. The page is built from its highest-probability answers.
+            A model proposes strategies, Jev judges them, code locks the winner into a blueprint, the
+            model writes inside it, and a critic checks the result.
           </p>
         </div>
 
@@ -99,9 +105,40 @@ export function GenerationCanvas({ state }: { state: GenerationState }) {
                   </p>
                   <p className="text-[0.8125rem] text-[var(--lab-text-faint)]">{stage.detail}</p>
 
+                  {stage.key === 'hypothesizing' && state.hypotheses && (
+                    <ul className="mt-3 flex flex-col gap-1 text-[0.8125rem]">
+                      {state.hypotheses.map((h) => (
+                        <li key={h.id} className="flex items-baseline justify-between gap-3 px-2">
+                          <span className="text-[var(--lab-text-muted)]">{h.name}</span>
+                          <span className="shrink-0 text-[0.6875rem] text-[var(--lab-text-faint)]">
+                            {ARCHETYPES[h.archetype].label}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {/* Jev's decisions land here, one at a time, as they arrive. */}
+                  {stage.key === 'deciding' && state.judgment && <JudgmentStream judgment={state.judgment} />}
                   {stage.key === 'deciding' && decisions.length > 0 && (
                     <DecisionStream decisions={decisions} />
+                  )}
+
+                  {stage.key === 'blueprinting' && state.blueprint && (
+                    <div className="mt-3 flex flex-col gap-1.5">
+                      <SectionChips
+                        types={[`hero · ${state.blueprint.hero.variant}`, ...state.blueprint.sections.map((s) => s.type)]}
+                        struck={state.blueprint.removed.map((r) => r.type)}
+                      />
+                      <p className="text-[0.75rem] text-[var(--lab-text-faint)]">
+                        {state.blueprint.forbidden.length} section types ruled out
+                        {state.blueprint.removed.length > 0 && `, ${state.blueprint.removed.length} removed by Jev's gates`}
+                      </p>
+                    </div>
+                  )}
+
+                  {stage.key === 'critiquing' && state.critique && (
+                    <p className="mt-2 text-[0.8125rem] text-[var(--lab-text-muted)]">{critiqueLine(state.critique)}</p>
                   )}
                 </div>
               </li>
@@ -122,6 +159,30 @@ function labelFor(d: Decision): string {
 function confidenceFor(d: Decision): number {
   if (d.type === 'noul') return Math.max(d.probability, 1 - d.probability)
   return d.ranked[0].probability
+}
+
+function JudgmentStream({ judgment }: { judgment: StrategyJudgment }) {
+  const reduced = useReducedMotion()
+  return (
+    <ul className="mt-3 flex flex-col gap-1">
+      {judgment.ranked.map((r, i) => (
+        <motion.li
+          key={r.id}
+          initial={reduced ? { opacity: 0 } : { opacity: 0, x: -6 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ ...transition.normal, delay: Math.min(i * 0.06, 0.3) }}
+          className="flex items-baseline justify-between gap-3 rounded-[var(--radius-sm)] px-2 py-1 text-[0.8125rem]"
+        >
+          <span className={cn('truncate', i === 0 ? 'font-medium text-[var(--lab-text)]' : 'text-[var(--lab-text-muted)]')}>
+            {r.name}
+          </span>
+          <span className="shrink-0 font-mono text-[0.6875rem] tabular-nums text-[var(--lab-accent)]">
+            {Math.round(r.probability * 100)}%
+          </span>
+        </motion.li>
+      ))}
+    </ul>
+  )
 }
 
 function DecisionStream({ decisions }: { decisions: Decision[] }) {

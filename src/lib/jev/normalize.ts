@@ -1,8 +1,4 @@
-import {
-  QUESTIONS,
-  type JevQuestion,
-  type QuestionId,
-} from '@/lib/jev/questions'
+import { QUESTIONS, type JevQuestion } from '@/lib/jev/questions'
 import type {
   Decision,
   DecisionSet,
@@ -123,16 +119,22 @@ function normalizeOne(
   return null
 }
 
+/**
+ * Normalizes the answers to `questions` — the fixed execution questions by
+ * default, or any other set (the per-run strategy questions travel in the same
+ * response). Answers to questions outside the set are ignored.
+ */
 export function normalizeDecisions(
   response: DecisionsResponse,
   latencyMs: number,
+  questions: Record<string, JevQuestion> = QUESTIONS,
 ): DecisionSet {
   const decisions: Record<string, Decision> = {}
 
-  for (const [id, question] of Object.entries(QUESTIONS)) {
+  for (const [id, question] of Object.entries(questions)) {
     const answer = response.answers[id]
     if (!answer) continue
-    const decision = normalizeOne(id, question as JevQuestion, answer)
+    const decision = normalizeOne(id, question, answer)
     if (decision) decisions[id] = decision
   }
 
@@ -148,8 +150,9 @@ export function normalizeDecisions(
 }
 
 /** Decisions we asked about but did not get a usable answer for. */
-export function missingDecisions(set: DecisionSet): QuestionId[] {
-  return (Object.keys(QUESTIONS) as QuestionId[]).filter(
-    (id) => !set.decisions[id],
-  )
+export function missingDecisions(
+  set: DecisionSet,
+  questions: Record<string, JevQuestion> = QUESTIONS,
+): string[] {
+  return Object.keys(questions).filter((id) => !set.decisions[id])
 }

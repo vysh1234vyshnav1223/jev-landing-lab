@@ -1,0 +1,967 @@
+{
+  "id": "api",
+  "label": "Developer API",
+  "brief": "An address verification API. Send a messy address, get back a standardised, geocoded, deliverability-checked one in under 50ms. Covers 240 countries, has SDKs for JavaScript, Python and Go, and a free tier of 1,000 lookups a month. Users are backend engineers at e-commerce and logistics companies. We want them to get an API key and make a first call.",
+  "result": {
+    "brief": {
+      "industry": "Address verification",
+      "product": "Address Verification API",
+      "audience": "Backend engineers at e-commerce and logistics companies",
+      "primaryGoal": "Get an API key and make a first call",
+      "secondaryGoals": [],
+      "brandAttributes": [
+        "Precise",
+        "Fast",
+        "Dependable"
+      ],
+      "conversionAction": "sign up for an API key",
+      "geography": "Global",
+      "competitors": [],
+      "priceContext": "Free tier: 1,000 lookups per month; usage-based pricing beyond free tier",
+      "productName": "Address Verification API"
+    },
+    "hypotheses": [
+      {
+        "name": "Code-First Ramp-Up",
+        "archetype": "developer_platform",
+        "thesis": "Engineers want a fast, runnable path from sign-up to first API call with concrete code and a quick-start flow.",
+        "persuasion": "Demonstrate how to go from signup to a working lookup in minutes with real code.",
+        "audienceFraming": "Backend engineers at e-commerce and logistics teams who measure success by speed of onboarding and clarity of docs.",
+        "narrative": [
+          "Open a terminal, paste a snippet, and see the API respond in seconds.",
+          "The fastest way to trust is to see a live call succeed with minimal ceremony.",
+          "From sign-up to first valid lookup in under 10 minutes."
+        ],
+        "hero": {
+          "variant": "product_demo",
+          "purpose": "Show the product working via a concrete code example and live lookups"
+        },
+        "conversion": {
+          "approach": "free_trial",
+          "rationale": "Lower friction by letting engineers experiment with the free tier and a quick-start flow"
+        },
+        "sections": [
+          {
+            "type": "codeSample",
+            "purpose": "Provide runnable code that calls the Address Verification API and returns a result",
+            "essential": true
+          },
+          {
+            "type": "explainer",
+            "purpose": "2–4 steps from sign-up to first lookup with minimal setup",
+            "essential": true
+          },
+          {
+            "type": "featureGrid",
+            "purpose": "Highlight core capabilities (address normalization, validation, formatting, fraud signals) as discrete blocks",
+            "essential": true
+          },
+          {
+            "type": "useCases",
+            "purpose": "Back-end scenarios (fulfillment, risk screening, compliance)",
+            "essential": true
+          },
+          {
+            "type": "integrations",
+            "purpose": "Show common platforms and deployment options (cloud, on-prem, CMS/ERP integrations)",
+            "essential": false
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Logos or quick credibility signals",
+            "essential": false
+          },
+          {
+            "type": "faq",
+            "purpose": "Blocking questions about limits, latency, privacy",
+            "essential": false
+          },
+          {
+            "type": "pricing",
+            "purpose": "Clarify free tier and pricing beyond the quota",
+            "essential": false
+          }
+        ],
+        "id": "code_first_ramp_up"
+      },
+      {
+        "name": "Global-Scale Reliability",
+        "archetype": "developer_platform",
+        "thesis": "Reliability and performance across regions is a decision criteria for teams shipping worldwide.",
+        "persuasion": "Demonstrate uptime, latency, and production-readiness metrics to build confidence.",
+        "audienceFraming": "Backend engineers needing predictable performance for global e-commerce and logistics workloads.",
+        "narrative": [
+          "Global reach, predictable performance, trusted by teams shipping worldwide.",
+          "Real-world metrics show latency and uptime across regions.",
+          "Scale without compromise: capacity planning and cost visibility."
+        ],
+        "hero": {
+          "variant": "value_prop",
+          "purpose": "Lead with a credibility-driven proposition about global reliability and fast lookups"
+        },
+        "conversion": {
+          "approach": "direct_action",
+          "rationale": "Encourage immediate signup after seeing reliability signals"
+        },
+        "sections": [
+          {
+            "type": "stats",
+            "purpose": "Show latency, uptime, regional coverage, and lookups per month",
+            "essential": false
+          },
+          {
+            "type": "featureGrid",
+            "purpose": "Performance optimizations (edge lookups, caching, retry behavior)",
+            "essential": true
+          },
+          {
+            "type": "pricing",
+            "purpose": "Clear tiers, including free quota and per-lookup beyond quota",
+            "essential": true
+          },
+          {
+            "type": "useCases",
+            "purpose": "High-volume, low-latency scenarios",
+            "essential": true
+          },
+          {
+            "type": "integrations",
+            "purpose": "Enterprise integrations and data residency options",
+            "essential": true
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Customer logos or credibility indicators",
+            "essential": false
+          },
+          {
+            "type": "faq",
+            "purpose": "Data privacy, residency, latency, and SLA questions",
+            "essential": true
+          },
+          {
+            "type": "cta",
+            "purpose": "Get API key and start the first call",
+            "essential": true
+          }
+        ],
+        "id": "global_scale_reliability"
+      },
+      {
+        "name": "Governed Access & Compliance",
+        "archetype": "developer_platform",
+        "thesis": "Teams need governance controls, audit trails, and clear access policies to feel comfortable at scale.",
+        "persuasion": "Highlight rate limits, key management, revocation, and compliance features.",
+        "audienceFraming": "Engineers and security-minded teams who require auditable usage and policy controls.",
+        "narrative": [
+          "Control access with clear policies from day one.",
+          "Auditable trails and revocation keep production safe and compliant.",
+          "From key issuance to policy-compliant production deployments."
+        ],
+        "hero": {
+          "variant": "value_prop",
+          "purpose": "Emphasize governance, security, and compliance capabilities"
+        },
+        "conversion": {
+          "approach": "explore",
+          "rationale": "Encourage docs browsing and policy evaluation before signup"
+        },
+        "sections": [
+          {
+            "type": "explainer",
+            "purpose": "Explain how keys, rate limits, and revocation work in practice",
+            "essential": true
+          },
+          {
+            "type": "featureGrid",
+            "purpose": "Governance features (audit logs, data residency options, access control)",
+            "essential": true
+          },
+          {
+            "type": "integrations",
+            "purpose": "Security and compliance integrations (SIEM, IAM)",
+            "essential": true
+          },
+          {
+            "type": "useCases",
+            "purpose": "Regulated industries and compliance-heavy workflows",
+            "essential": true
+          },
+          {
+            "type": "faq",
+            "purpose": "Common governance questions, data handling, and residency",
+            "essential": false
+          },
+          {
+            "type": "pricing",
+            "purpose": "Pricing that reflects governance features",
+            "essential": false
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Testimonials about compliance success",
+            "essential": false
+          },
+          {
+            "type": "cta",
+            "purpose": "Encourage exploration and then sign-up with a governed plan",
+            "essential": true
+          }
+        ],
+        "id": "governed_access_compliance"
+      }
+    ],
+    "decisions": {
+      "decisions": {
+        "socialProofType": {
+          "id": "socialProofType",
+          "type": "choice",
+          "question": "Which form of social proof will carry the most weight with this audience?",
+          "ranked": [
+            {
+              "option": "customer_logos",
+              "label": "Recognisable company names; the audience is professional and judges by peers",
+              "probability": 0.8
+            },
+            {
+              "option": "metrics",
+              "label": "Hard numbers — users, volume, ratings; the audience responds to scale",
+              "probability": 0.2
+            },
+            {
+              "option": "ratings_reviews",
+              "label": "Aggregate star ratings and review counts; consumer purchase with many alternatives",
+              "probability": 0
+            },
+            {
+              "option": "testimonials",
+              "label": "Named individual quotes; the audience responds to human stories",
+              "probability": 0
+            }
+          ],
+          "selected": "customer_logos",
+          "confidence": 0.74,
+          "entropy": 0.7219280948873623
+        },
+        "visualDirection": {
+          "id": "visualDirection",
+          "type": "choice",
+          "question": "Which visual register best matches this brand and audience?",
+          "ranked": [
+            {
+              "option": "technical_precise",
+              "label": "Monospace accents, fine borders, restrained palette — reads as built for experts",
+              "probability": 0.95
+            },
+            {
+              "option": "clean_utility",
+              "label": "Neutral, dense, efficient — reads as a reliable tool",
+              "probability": 0.05
+            },
+            {
+              "option": "bold_confident",
+              "label": "High contrast, strong type, saturated accent — reads as decisive and modern",
+              "probability": 0
+            },
+            {
+              "option": "warm_editorial",
+              "label": "Generous spacing, imagery-led, magazine-like — reads as inviting and considered",
+              "probability": 0
+            }
+          ],
+          "selected": "technical_precise",
+          "confidence": 0.93,
+          "entropy": 0.28639695711595625
+        },
+        "navigationComplexity": {
+          "id": "navigationComplexity",
+          "type": "score",
+          "question": "How much navigation does this page need for the visitor to feel oriented without being distracted from the primary action?",
+          "score": 0.35,
+          "levels": [
+            "Almost none — a wordmark and a single action; anything more competes with conversion",
+            "Moderate — a few destinations plus the primary action",
+            "Full — multiple sections and categories; the visitor genuinely needs to navigate"
+          ],
+          "ranked": [
+            {
+              "option": "0",
+              "label": "Almost none — a wordmark and a single action; anything more competes with conversion",
+              "probability": 0.65
+            },
+            {
+              "option": "1",
+              "label": "Moderate — a few destinations plus the primary action",
+              "probability": 0.35
+            },
+            {
+              "option": "2",
+              "label": "Full — multiple sections and categories; the visitor genuinely needs to navigate",
+              "probability": 0
+            }
+          ],
+          "selected": 0,
+          "confidence": 0.47,
+          "entropy": 0.934068055375491
+        },
+        "offerProminence": {
+          "id": "offerProminence",
+          "type": "score",
+          "question": "How prominent should price, offers or commercial terms be on this page?",
+          "score": 1.04,
+          "levels": [
+            "Absent — price is not how this decision is made, or is not public",
+            "Present but secondary — available for those who look, not leading",
+            "Leading — price or offer is the strongest argument and belongs high on the page"
+          ],
+          "ranked": [
+            {
+              "option": "1",
+              "label": "Present but secondary — available for those who look, not leading",
+              "probability": 0.88
+            },
+            {
+              "option": "2",
+              "label": "Leading — price or offer is the strongest argument and belongs high on the page",
+              "probability": 0.08
+            },
+            {
+              "option": "0",
+              "label": "Absent — price is not how this decision is made, or is not public",
+              "probability": 0.04
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.81,
+          "entropy": 0.4035151400004137
+        },
+        "trustIsPrimaryBarrier": {
+          "id": "trustIsPrimaryBarrier",
+          "type": "noul",
+          "question": "Is trust or credibility the main thing preventing this audience from converting?",
+          "probability": 0.44,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.9895875212220556
+        },
+        "requiresEducation": {
+          "id": "requiresEducation",
+          "type": "noul",
+          "question": "Does the visitor need to be taught something before the offer makes sense?",
+          "probability": 0.18,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.6800770457282798
+        }
+      },
+      "meta": {
+        "decisionId": "gen-dec-1790751641-egnn5N9XkwGsljmfcij3",
+        "model": "typesafe/jev-1.13-20260917",
+        "latencyMs": 702,
+        "cost": 0.000315966
+      }
+    },
+    "judgment": {
+      "ranked": [
+        {
+          "id": "code_first_ramp_up",
+          "name": "Code-First Ramp-Up",
+          "probability": 0.9737500000000001
+        },
+        {
+          "id": "global_scale_reliability",
+          "name": "Global-Scale Reliability",
+          "probability": 0.026250000000000002
+        },
+        {
+          "id": "governed_access_compliance",
+          "name": "Governed Access & Compliance",
+          "probability": 0
+        }
+      ],
+      "selected": "code_first_ramp_up",
+      "criteria": [
+        {
+          "id": "strategyOverall",
+          "label": "Overall",
+          "weight": 2,
+          "confidence": 0.99,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 1
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyAudienceFit",
+          "label": "Audience fit",
+          "weight": 1,
+          "confidence": 0.98,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 0.99
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0.01
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyProductFit",
+          "label": "Product fit",
+          "weight": 1,
+          "confidence": 0.98,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 0.99
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0.01
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyConversion",
+          "label": "Conversion",
+          "weight": 1,
+          "confidence": 0.97,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 0.98
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0.02
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyCoherence",
+          "label": "Coherence",
+          "weight": 1,
+          "confidence": 0.98,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 0.99
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0.01
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyDifferentiation",
+          "label": "Differentiation",
+          "weight": 1,
+          "confidence": 0.76,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 0.84
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0.16
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyEvidence",
+          "label": "Evidence",
+          "weight": 1,
+          "confidence": 1,
+          "ranked": [
+            {
+              "id": "code_first_ramp_up",
+              "probability": 1
+            },
+            {
+              "id": "global_scale_reliability",
+              "probability": 0
+            },
+            {
+              "id": "governed_access_compliance",
+              "probability": 0
+            }
+          ]
+        }
+      ]
+    },
+    "blueprint": {
+      "strategyId": "code_first_ramp_up",
+      "strategyName": "Code-First Ramp-Up",
+      "archetype": "developer_platform",
+      "strategicGoal": "Get Backend engineers at e-commerce and logistics companies to sign up for an API key.",
+      "thesis": "Engineers want a fast, runnable path from sign-up to first API call with concrete code and a quick-start flow.",
+      "persuasion": "Demonstrate how to go from signup to a working lookup in minutes with real code.",
+      "audienceFraming": "Backend engineers at e-commerce and logistics teams who measure success by speed of onboarding and clarity of docs.",
+      "narrative": [
+        "Open a terminal, paste a snippet, and see the API respond in seconds.",
+        "The fastest way to trust is to see a live call succeed with minimal ceremony.",
+        "From sign-up to first valid lookup in under 10 minutes."
+      ],
+      "hero": {
+        "variant": "product_demo",
+        "purpose": "Show the product working via a concrete code example and live lookups",
+        "trustSignals": false
+      },
+      "sections": [
+        {
+          "key": "s1_codeSample",
+          "type": "codeSample",
+          "purpose": "Provide runnable code that calls the Address Verification API and returns a result",
+          "required": true
+        },
+        {
+          "key": "s2_explainer",
+          "type": "explainer",
+          "purpose": "2–4 steps from sign-up to first lookup with minimal setup",
+          "required": false
+        },
+        {
+          "key": "s3_featureGrid",
+          "type": "featureGrid",
+          "purpose": "Highlight core capabilities (address normalization, validation, formatting, fraud signals) as discrete blocks",
+          "required": true
+        },
+        {
+          "key": "s4_useCases",
+          "type": "useCases",
+          "purpose": "Back-end scenarios (fulfillment, risk screening, compliance)",
+          "required": true
+        },
+        {
+          "key": "s5_integrations",
+          "type": "integrations",
+          "purpose": "Show common platforms and deployment options (cloud, on-prem, CMS/ERP integrations)",
+          "required": false
+        },
+        {
+          "key": "s6_socialProof",
+          "type": "socialProof",
+          "purpose": "Logos or quick credibility signals",
+          "required": false
+        },
+        {
+          "key": "s7_faq",
+          "type": "faq",
+          "purpose": "Blocking questions about limits, latency, privacy",
+          "required": false
+        },
+        {
+          "key": "s8_cta",
+          "type": "cta",
+          "purpose": "Close by asking the visitor to sign up for an API key.",
+          "required": true
+        }
+      ],
+      "forbidden": [
+        {
+          "type": "search",
+          "reason": "Not part of a developer platform page."
+        },
+        {
+          "type": "pricing",
+          "reason": "Jev judged price secondary — it can be mentioned, but it gets no section of its own."
+        },
+        {
+          "type": "showcase",
+          "reason": "Not part of a developer platform page."
+        },
+        {
+          "type": "comparison",
+          "reason": "The brief names no alternatives, so there is nothing honest to compare against."
+        },
+        {
+          "type": "story",
+          "reason": "Not part of a developer platform page."
+        }
+      ],
+      "removed": [
+        {
+          "type": "pricing",
+          "purpose": "Clarify free tier and pricing beyond the quota",
+          "reason": "Jev judged price secondary — it can be mentioned, but it gets no section of its own."
+        }
+      ],
+      "visual": {
+        "direction": "technical_precise"
+      },
+      "conversion": {
+        "approach": "free_trial",
+        "action": "sign up for an API key",
+        "rationale": "Lower friction by letting engineers experiment with the free tier and a quick-start flow"
+      },
+      "proof": {
+        "type": "customer_logos"
+      },
+      "navigation": {
+        "maxLinks": 0,
+        "sticky": false
+      },
+      "offer": {
+        "prominence": 1,
+        "pricesAllowed": true
+      },
+      "contentRequirements": [
+        "Every section does the job its purpose names, in the order given. Do not repurpose a section.",
+        "The primary CTA asks the visitor to sign up for an API key — offer a low-commitment trial or free tier first.",
+        "Frame the visitor as: Backend engineers at e-commerce and logistics teams who measure success by speed of onboarding and clarity of docs..",
+        "Trust is not the barrier: no trust-signal chips in the hero.",
+        "Price is secondary: mention it only where a visitor would look for it."
+      ],
+      "constraints": [
+        "No performance percentages, multipliers or benchmark results unless the brief states them.",
+        "No awards, certifications, press mentions or rankings unless the brief states them.",
+        "Never name real, well-known companies as customers, partners or integrations unless the brief does; plausible illustrative names are fine.",
+        "Testimonials, reviewer names and sample items are illustrative: keep them ordinary and plausible, never superlative.",
+        "Say nothing that belongs to a different kind of business than this one."
+      ]
+    },
+    "spec": {
+      "theme": {
+        "direction": "technical_precise",
+        "accent": "blue"
+      },
+      "navigation": {
+        "wordmark": "Precise Address",
+        "links": [],
+        "ctaLabel": "Create API key",
+        "sticky": false
+      },
+      "hero": {
+        "variant": "product_demo",
+        "eyebrow": "Address Verification API",
+        "headline": "From signup to first lookup in minutes",
+        "subheadline": "Open a terminal, paste a snippet, and see a live response in seconds. The fastest path to trust is a working call with minimal setup.",
+        "primaryCta": "Create API key",
+        "secondaryCta": "View pricing",
+        "trustSignals": [],
+        "searchFields": [],
+        "demoSteps": [
+          {
+            "label": "Step 1",
+            "detail": "Sign up and obtain your API key in the dashboard."
+          },
+          {
+            "label": "Step 2",
+            "detail": "Paste the code snippet into your terminal or editor."
+          },
+          {
+            "label": "Step 3",
+            "detail": "Run the request and inspect the verified address result."
+          }
+        ]
+      },
+      "sections": [
+        {
+          "type": "codeSample",
+          "heading": "Code sample: get a verified address",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s1_codeSample",
+          "layout": "split",
+          "points": [
+            {
+              "title": "1) Prepare the request",
+              "body": "Set your API key and the input address."
+            },
+            {
+              "title": "2) Make the call",
+              "body": "POST to the Address Verification API endpoint with JSON payload."
+            },
+            {
+              "title": "3) Read the result",
+              "body": "Parse the response to get normalized, validated fields."
+            },
+            {
+              "title": "4) Handle errors",
+              "body": "Gracefully respond to invalid input or rate limits."
+            }
+          ],
+          "snippets": [
+            {
+              "label": "JavaScript",
+              "code": "const apiKey = 'YOUR_API_KEY';\nconst res = await fetch('https://api.preciseaddress.dev/lookup', {\n  method: 'POST',\n  headers: {\n    'Authorization': `Bearer ${apiKey}`,\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({ input: '1600 Amphitheatre Pkwy, Mountain View, CA' })\n});\nconst data = await res.json();\nconsole.log(data);"
+            }
+          ]
+        },
+        {
+          "type": "explainer",
+          "heading": "From sign-up to first lookup in minutes",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s2_explainer",
+          "layout": "cards",
+          "steps": [
+            {
+              "title": "Create an API key",
+              "body": "Register for a free trial and generate your key in the dashboard."
+            },
+            {
+              "title": "Paste the snippet",
+              "body": "Copy the code into your editor or terminal."
+            },
+            {
+              "title": "Run and verify",
+              "body": "Execute the request and view the verified address response."
+            },
+            {
+              "title": "Move to production",
+              "body": "Switch to production endpoint as you scale."
+            }
+          ]
+        },
+        {
+          "type": "featureGrid",
+          "heading": "Core capabilities",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s3_featureGrid",
+          "layout": "cards",
+          "items": [
+            {
+              "icon": "wand",
+              "title": "Address normalization",
+              "body": "Convert input to a canonical format for consistency across systems."
+            },
+            {
+              "icon": "shield-check",
+              "title": "Address validation",
+              "body": "Validate against postal standards and return status codes."
+            },
+            {
+              "icon": "type",
+              "title": "Formatting & enrichment",
+              "body": "Return formatted address fields, plus metadata like country, region, and aliases."
+            },
+            {
+              "icon": "feather",
+              "title": "Fraud signals",
+              "body": "Ingest signals to help flag suspicious-looking addresses at lookup time."
+            }
+          ]
+        },
+        {
+          "type": "useCases",
+          "heading": "Backend scenarios",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s4_useCases",
+          "layout": "tiles",
+          "items": [
+            {
+              "icon": "truck",
+              "title": "Fulfillment routing",
+              "body": "Route orders to the correct warehouse after address normalization.",
+              "recommendation": "Use address standardization as a gating step before shipping labels."
+            },
+            {
+              "icon": "shield",
+              "title": "Risk screening",
+              "body": "Flag high-risk destinations or mismatched metadata during checkout.",
+              "recommendation": "Combine with order risk scoring for faster decisions."
+            },
+            {
+              "icon": "clipboard",
+              "title": "Compliance checks",
+              "body": "Ensure addresses meet regional requirements and tax jurisdiction rules.",
+              "recommendation": "Automate validation before invoicing."
+            }
+          ]
+        },
+        {
+          "type": "integrations",
+          "heading": "Integrations & deployment",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s5_integrations",
+          "layout": "grid",
+          "items": [
+            {
+              "name": "Shopify",
+              "detail": "Embed address verification in checkout for faster, accurate orders."
+            },
+            {
+              "name": "Magento",
+              "detail": "Validate shipping addresses in cart and during order creation."
+            },
+            {
+              "name": "SAP on AWS",
+              "detail": "Batch-process address data and standardize in data pipelines."
+            },
+            {
+              "name": "PostgreSQL ETL",
+              "detail": "Enrich address fields during data ingestion."
+            }
+          ]
+        },
+        {
+          "type": "socialProof",
+          "heading": "Trusted by teams",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s6_socialProof",
+          "variant": "customer_logos",
+          "logos": [
+            "logo-merchant-a",
+            "logo-merchant-b",
+            "logo-merchant-c"
+          ],
+          "quotes": [],
+          "metrics": [],
+          "rating": null
+        },
+        {
+          "type": "faq",
+          "heading": "Frequently asked questions",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s7_faq",
+          "layout": "accordion",
+          "items": [
+            {
+              "q": "What are lookup limits?",
+              "a": "Free tier provides 1,000 lookups per month; usage-based pricing applies beyond that."
+            },
+            {
+              "q": "What about latency?",
+              "a": "Lookups are fast and respond quickly under typical network conditions."
+            },
+            {
+              "q": "How is data handled?",
+              "a": "We minimize data retention and provide privacy controls per region."
+            }
+          ]
+        },
+        {
+          "type": "cta",
+          "heading": "Get started with an API key",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s8_cta",
+          "layout": "card",
+          "primaryCta": "Create API key",
+          "secondaryCta": "View pricing",
+          "reassurance": "Free tier: 1,000 lookups per month; pay-as-you-go thereafter."
+        }
+      ],
+      "footer": {
+        "tagline": "Precise, Fast, Dependable Address Verification API",
+        "columns": [
+          {
+            "title": "Product",
+            "links": [
+              "API docs",
+              "SDKs",
+              "Pricing"
+            ]
+          },
+          {
+            "title": "Resources",
+            "links": [
+              "Guides",
+              "Changelog",
+              "Support"
+            ]
+          }
+        ]
+      }
+    },
+    "critique": {
+      "valid": true,
+      "issues": [
+        {
+          "type": "narrative_break",
+          "severity": "blocking",
+          "target": "s7_faq",
+          "reason": "Latency figure presented in FAQ ('Most lookups complete within a few hundred milliseconds') is not stated in the brief and constitutes an unsupported performance metric.",
+          "fix": "Remove specific latency claim or replace with non-quantified language like 'low latency' or 'fast lookups' without numbers."
+        },
+        {
+          "type": "duplication",
+          "severity": "minor",
+          "target": "s5_integrations",
+          "reason": "Integration list overlaps with features (formatting, enrichment, etc.) and may imply capabilities beyond basic integrations; consider ensuring each integration entry clearly maps to deployment scenarios and avoids overpromising.",
+          "fix": "Tighten wording to emphasize deployment readiness and avoid implying unsupported integration breadth."
+        },
+        {
+          "type": "irrelevant_section",
+          "severity": "minor",
+          "target": "s6_socialProof",
+          "reason": "Social proof section includes logos but no quotes or quantitative credibility; if trust signals are not required by the strategy, ensure logos are clearly illustrative and not mistaken for validated endorsements.",
+          "fix": "either add plausible, non-hyped quotes or convert to purely visual logos with a clarifying note that these are illustrative examples."
+        },
+        {
+          "type": "irrelevant_section",
+          "severity": "minor",
+          "target": "s2_explainer",
+          "reason": "The explainer uses 4 steps; ensure each step maps to the exact sign-up-to-first-lookup flow described in the blueprint. If any step implies extra setup not allowed, adjust.",
+          "fix": "Review steps to ensure they reflect the minimum viable path from signup to first lookup with no extraneous setup."
+        },
+        {
+          "type": "conversion_misalignment",
+          "severity": "minor",
+          "target": "s8_cta",
+          "reason": "Primary CTA is 'Create API key' as required, but the secondary CTA 'View pricing' appears both in hero and CTA card; ensure the primary focus remains the API key sign-up flow and pricing is clearly secondary.",
+          "fix": "Keep one prominent secondary pricing cue near the hero or in a dedicated pricing panel, but avoid competing CTAs within the hero that could dilute the primary conversion."
+        },
+        {
+          "type": "conversion_misalignment",
+          "severity": "minor",
+          "target": "s1_codeSample",
+          "reason": "Code sample shows a live endpoint and an Arabic-auth-like flow not explicitly mapped to the free tier first lookup experience; ensure the code sample clearly demonstrates a first successful lookup under the free tier.",
+          "fix": "Annotate the snippet to reflect using a test key and the free tier endpoint, ensuring the first lookup shown would be within the free quota."
+        },
+        {
+          "type": "narrative_break",
+          "severity": "minor",
+          "target": "hero",
+          "reason": "Hero paragraph emphasizes a fast, frictionless path but the trust signals are explicitly empty; the narrative should align with the blueprint's emphasis on speed and a concrete code example without adding unneeded trust signals in the hero.",
+          "fix": "Maintain zero trust chips in hero but ensure the code example and live lookup flow are immediately visible and aligned with the 'minutes' storytelling."
+        }
+      ],
+      "remaining": [],
+      "repaired": [
+        "s7_faq"
+      ],
+      "reviewer": "model"
+    }
+  }
+}

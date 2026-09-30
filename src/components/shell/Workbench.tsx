@@ -49,7 +49,7 @@ function TitleBar() {
       </span>
 
       <span className="ml-auto flex items-center gap-2 text-[0.6875rem] text-[var(--lab-text-faint)]">
-        <span className="hidden font-mono sm:inline">jev decides · the model writes</span>
+        <span className="hidden font-mono sm:inline">ai proposes · jev judges · code enforces · ai writes</span>
       </span>
     </header>
   )

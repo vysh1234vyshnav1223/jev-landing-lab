@@ -4,34 +4,22 @@ import { motion } from 'motion/react'
 import { Info, RotateCcw, SplitSquareHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { DecisionSlider } from '@/components/decisions/DecisionSlider'
+import { StrategyList } from '@/components/decisions/StrategyList'
 import { transition } from '@/lib/motion/tokens'
+import { QUESTION_TITLES } from '@/lib/jev/questions'
 import type { Decision, DecisionSet } from '@/schemas/decisions'
+import type { StrategyHypothesis, StrategyJudgment } from '@/schemas/strategy'
 
 /**
- * Inspector for what Jev returned — and where a person can override it.
+ * Inspector for what Jev returned — and where a person can explore it.
  *
- * One row per decision, one track showing Jev's currently-selected answer and
- * its real probability. Drag the handle (or use the arrows) to step through
- * Jev's own ranked answers for that decision — never a free-form number,
- * always one of the options Jev actually returned. Nothing is sent back to
- * Jev; Compare rebuilds the page from the edited strategy so it can sit next
- * to Jev's original.
+ * Top: Jev's distribution over the candidate strategies. The page was built
+ * from Jev's pick; choosing another candidate sets up "what if Jev had chosen
+ * this?" for Compare. Below: Jev's execution decisions, one slider each,
+ * stepping only through Jev's own ranked answers — never a free-form value.
+ * Nothing is sent back to Jev; Compare rebuilds a page from the edits so it
+ * can sit next to Jev's original.
  */
-
-const TITLES: Record<string, string> = {
-  heroStrategy: 'Hero strategy',
-  ctaStrategy: 'CTA strategy',
-  socialProofType: 'Social proof',
-  contentHierarchy: 'Content hierarchy',
-  visualDirection: 'Visual direction',
-  pageArchitecture: 'Page architecture',
-  navigationComplexity: 'Navigation',
-  interactionDensity: 'Interaction density',
-  offerProminence: 'Offer prominence',
-  trustIsPrimaryBarrier: 'Trust is the barrier',
-  audienceIsPriceSensitive: 'Price-sensitive audience',
-  requiresEducation: 'Needs education',
-}
 
 /**
  * Jev's criteria text is one clause per option, sometimes with a trailing
@@ -46,6 +34,10 @@ function short(label: string, max = 80) {
 
 export function DecisionPanel({
   decisions,
+  judgment,
+  hypotheses,
+  chosenStrategy,
+  onChooseStrategy,
   overrides,
   onChoose,
   onClear,
@@ -53,12 +45,18 @@ export function DecisionPanel({
   comparing,
 }: {
   decisions: DecisionSet
+  judgment: StrategyJudgment
+  hypotheses: StrategyHypothesis[]
+  chosenStrategy: string | null
+  onChooseStrategy: (id: string | null) => void
   overrides: Map<string, number>
   onChoose: (decisionId: string, rank: number) => void
   onClear: () => void
   onCompare: () => void
   comparing: boolean
 }) {
+  const alternative = chosenStrategy ? judgment.ranked.find((r) => r.id === chosenStrategy) : null
+  const edits = overrides.size + (alternative ? 1 : 0)
   return (
     <div className="flex h-full flex-col">
       <div className="flex flex-col gap-2 border-b border-[var(--lab-border)] p-4">
@@ -66,13 +64,26 @@ export function DecisionPanel({
           <Info className="mt-0.5 size-3 shrink-0" />
           <span>
             Probabilities returned by Jev
-            {decisions.meta.model ? ` (${decisions.meta.model})` : ''}. Drag the handle, or use
-            the arrows, to try Jev&rsquo;s next answer.
+            {decisions.meta.model ? ` (${decisions.meta.model})` : ''}. Pick another strategy, or
+            step a decision to Jev&rsquo;s next answer, then compare.
           </span>
         </p>
       </div>
 
       <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto p-4">
+        <h2 className="mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[var(--lab-text-faint)]">
+          Strategy
+        </h2>
+        <StrategyList
+          judgment={judgment}
+          hypotheses={hypotheses}
+          chosen={chosenStrategy}
+          onChoose={onChooseStrategy}
+        />
+
+        <h2 className="mb-3 mt-6 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[var(--lab-text-faint)]">
+          Execution
+        </h2>
         <div className="flex min-w-0 flex-col gap-4">
           {Object.values(decisions.decisions).map((d, i) => (
             <DecisionRow
@@ -87,11 +98,13 @@ export function DecisionPanel({
       </div>
 
       <div className="flex flex-col gap-2 border-t border-[var(--lab-border)] p-3">
-        {overrides.size > 0 && (
+        {edits > 0 && (
           <div className="flex items-center gap-2">
             <Button variant="primary" size="sm" onClick={onCompare} loading={comparing} className="flex-1">
               <SplitSquareHorizontal className="size-3.5" />
-              Compare {overrides.size} {overrides.size === 1 ? 'change' : 'changes'}
+              {alternative
+                ? `Compare strategies${overrides.size ? ` +${overrides.size}` : ''}`
+                : `Compare ${overrides.size} ${overrides.size === 1 ? 'change' : 'changes'}`}
             </Button>
             <Button variant="ghost" size="sm" onClick={onClear} aria-label="Discard changes">
               <RotateCcw className="size-3.5" />
@@ -138,7 +151,7 @@ function DecisionRow({
     >
       <div className="mb-1 flex items-baseline justify-between gap-2">
         <h3 className="text-[0.75rem] text-[var(--lab-text-faint)]">
-          {TITLES[decision.id] ?? decision.id}
+          {QUESTION_TITLES[decision.id] ?? decision.id}
         </h3>
         {decision.confidence !== null && (
           <span

@@ -6,52 +6,54 @@ import { AnimatePresence, motion } from 'motion/react'
 import { cn } from '@/lib/cn'
 import { Button } from '@/components/ui/Button'
 import { Renderer } from '@/components/preview/Renderer'
+import { BlueprintSummary } from '@/components/decisions/BlueprintSummary'
 import { transition } from '@/lib/motion/tokens'
+import { QUESTION_TITLES } from '@/lib/jev/questions'
 import type { Departure } from '@/lib/jev/directions'
+import type { CritiqueReport, PageBlueprint } from '@/schemas/blueprint'
 import type { LandingPageSpec } from '@/schemas/spec'
 
-const TITLES: Record<string, string> = {
-  heroStrategy: 'Hero strategy',
-  ctaStrategy: 'CTA strategy',
-  socialProofType: 'Social proof',
-  contentHierarchy: 'Content hierarchy',
-  visualDirection: 'Visual direction',
-  pageArchitecture: 'Page architecture',
-  navigationComplexity: 'Navigation',
-  interactionDensity: 'Interaction density',
-  offerProminence: 'Offer prominence',
-  trustIsPrimaryBarrier: 'Trust is the barrier',
-  audienceIsPriceSensitive: 'Price-sensitive audience',
-  requiresEducation: 'Needs education',
+export type CompareSide = {
+  spec: LandingPageSpec
+  blueprint: PageBlueprint
+  critique: CritiqueReport | null
+  /** Jev's combined probability for this side's strategy. */
+  probability: number | null
 }
 
 /**
- * Jev's page next to a person's edited version, both scaled to fit — a
- * silhouette comparison, not two full-size pages fighting for scroll. Either
- * side expands to full size on demand.
+ * Jev's page next to an alternative — usually "what if Jev had chosen the
+ * runner-up strategy?", optionally with execution decisions edited too. The
+ * strategic difference (approach, story, sections, ask, visual direction,
+ * Jev's confidence) sits above each page; the pages themselves are scaled
+ * to fit as silhouettes, and either side expands to full size on demand.
  */
 export function CompareView({
-  jevSpec,
-  editedSpec,
+  jev,
+  alternative,
   departures,
   onClose,
 }: {
-  jevSpec: LandingPageSpec
-  editedSpec: LandingPageSpec
+  jev: CompareSide
+  alternative: CompareSide
   departures: Departure[]
   onClose: () => void
 }) {
   const [expanded, setExpanded] = useState<'jev' | 'edited' | null>(null)
+  const sameStrategy = jev.blueprint.strategyId === alternative.blueprint.strategyId
+  const altLabel = sameStrategy ? "Jev's strategy, your edits" : 'Alternative strategy'
 
   return (
     <div className="flex h-full flex-col">
       <div className="flex shrink-0 items-center gap-3 border-b border-[var(--lab-border)] bg-[var(--lab-1)] px-4 py-2.5">
         <h2 className="text-[0.8125rem] font-semibold text-[var(--lab-text)]">
-          Jev vs. your version
+          {sameStrategy ? 'Jev vs. your edits' : 'Jev’s strategy vs. the alternative'}
         </h2>
-        <span className="font-mono text-[0.6875rem] text-[var(--lab-text-faint)]">
-          {departures.length} {departures.length === 1 ? 'change' : 'changes'}
-        </span>
+        {departures.length > 0 && (
+          <span className="font-mono text-[0.6875rem] text-[var(--lab-text-faint)]">
+            {departures.length} execution {departures.length === 1 ? 'change' : 'changes'}
+          </span>
+        )}
         <Button variant="ghost" size="sm" onClick={onClose} className="ml-auto">
           <X className="size-3.5" />
           Close
@@ -65,7 +67,7 @@ export function CompareView({
               key={d.decisionId}
               className="flex items-center gap-1.5 text-[0.6875rem] text-[var(--lab-text-muted)]"
             >
-              <span className="text-[var(--lab-text-faint)]">{TITLES[d.decisionId] ?? d.decisionId}:</span>
+              <span className="text-[var(--lab-text-faint)]">{QUESTION_TITLES[d.decisionId] ?? d.decisionId}:</span>
               <span className="line-through opacity-60">{short(d.from)}</span>
               <ArrowRight className="size-2.5 text-[var(--lab-text-faint)]" />
               <span className="text-[var(--lab-warn)]">{short(d.to)}</span>
@@ -74,15 +76,30 @@ export function CompareView({
         </ul>
       )}
 
+      <div className="grid max-h-[40%] shrink-0 grid-cols-1 gap-px overflow-y-auto border-b border-[var(--lab-border)] bg-[var(--lab-border)] sm:grid-cols-2">
+        <div className="bg-[var(--lab-0)] p-4">
+          <BlueprintSummary label="Jev's pick" blueprint={jev.blueprint} probability={jev.probability} critique={jev.critique} />
+        </div>
+        <div className="bg-[var(--lab-0)] p-4">
+          <BlueprintSummary
+            label={altLabel}
+            blueprint={alternative.blueprint}
+            probability={alternative.probability}
+            critique={alternative.critique}
+            accent
+          />
+        </div>
+      </div>
+
       <div className="grid min-h-0 flex-1 grid-cols-1 gap-px overflow-hidden bg-[var(--lab-border)] sm:grid-cols-2">
         <Thumbnail
-          label="Jev"
-          spec={jevSpec}
+          label={jev.blueprint.strategyName}
+          spec={jev.spec}
           onExpand={() => setExpanded('jev')}
         />
         <Thumbnail
-          label="Your version"
-          spec={editedSpec}
+          label={alternative.blueprint.strategyName}
+          spec={alternative.spec}
           accent
           onExpand={() => setExpanded('edited')}
         />
@@ -99,7 +116,7 @@ export function CompareView({
           >
             <div className="flex h-11 shrink-0 items-center gap-2 border-b border-[var(--lab-border)] px-3">
               <span className="text-[0.75rem] font-medium text-[var(--lab-text)]">
-                {expanded === 'jev' ? 'Jev' : 'Your version'}
+                {expanded === 'jev' ? jev.blueprint.strategyName : alternative.blueprint.strategyName}
               </span>
               <Button
                 variant="ghost"
@@ -112,7 +129,7 @@ export function CompareView({
               </Button>
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto bg-white">
-              <Renderer spec={expanded === 'jev' ? jevSpec : editedSpec} />
+              <Renderer spec={expanded === 'jev' ? jev.spec : alternative.spec} />
             </div>
           </motion.div>
         )}

@@ -27,7 +27,7 @@ describe('normalizeDecisions', () => {
   })
 
   it('ranks choice options high to low', () => {
-    const d = set.decisions.heroStrategy
+    const d = set.decisions.socialProofType
     expect(d.type).toBe('choice')
     if (d.type !== 'choice') return
     const probs = d.ranked.map((r) => r.probability)
@@ -47,7 +47,7 @@ describe('normalizeDecisions', () => {
   })
 
   it('rounds a float score to the nearest rubric level', () => {
-    const d = set.decisions.interactionDensity
+    const d = set.decisions.offerProminence
     if (d.type !== 'score') throw new Error('expected score')
     expect(Number.isInteger(d.score)).toBe(false)
     expect(d.selected).toBe(Math.round(d.score))
@@ -56,12 +56,12 @@ describe('normalizeDecisions', () => {
 
   it('renormalizes a distribution that does not sum to 1', () => {
     const raw = fixtureDecisionsResponse()
-    raw.answers.ctaStrategy = {
+    raw.answers.socialProofType = {
       type: 'choice',
-      choice: 'direct_action',
-      probabilities: { direct_action: 3, free_trial: 1 },
+      choice: 'metrics',
+      probabilities: { metrics: 3, testimonials: 1 },
     }
-    const d = normalizeDecisions(raw, 1).decisions.ctaStrategy
+    const d = normalizeDecisions(raw, 1).decisions.socialProofType
     if (d.type !== 'choice') throw new Error('expected choice')
     const total = d.ranked.reduce((a, r) => a + r.probability, 0)
     expect(total).toBeCloseTo(1)
@@ -79,22 +79,22 @@ describe('normalizeDecisions', () => {
 
   it('ignores an option key we never offered', () => {
     const raw = fixtureDecisionsResponse()
-    raw.answers.pageArchitecture = {
+    raw.answers.visualDirection = {
       type: 'choice',
       choice: 'something_invented',
-      probabilities: { focused: 0.7, standard: 0.3 },
+      probabilities: { warm_editorial: 0.7, clean_utility: 0.3 },
     }
-    const d = normalizeDecisions(raw, 1).decisions.pageArchitecture
+    const d = normalizeDecisions(raw, 1).decisions.visualDirection
     if (d.type !== 'choice') throw new Error('expected choice')
-    expect(d.selected).toBe('focused')
+    expect(d.selected).toBe('warm_editorial')
   })
 
   it('drops an answer whose type disagrees with the question', () => {
     const raw = fixtureDecisionsResponse()
-    raw.answers.heroStrategy = { type: 'noul', noul: 0.9 }
+    raw.answers.socialProofType = { type: 'noul', noul: 0.9 }
     const result = normalizeDecisions(raw, 1)
-    expect(result.decisions.heroStrategy).toBeUndefined()
-    expect(missingDecisions(result)).toContain('heroStrategy')
+    expect(result.decisions.socialProofType).toBeUndefined()
+    expect(missingDecisions(result)).toContain('socialProofType')
   })
 
   it('accepts a noul with no confidence field', () => {

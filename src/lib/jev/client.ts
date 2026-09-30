@@ -2,18 +2,56 @@ import { env } from '@/config/env'
 import { PipelineError } from '@/lib/errors'
 import { QUESTIONS } from '@/lib/jev/questions'
 import { missingDecisions, normalizeDecisions } from '@/lib/jev/normalize'
-import { decisionsResponse } from '@/schemas/decisions'
+import { judgeStrategies, strategyQuestions } from '@/lib/jev/strategies'
+import { decisionsResponse, type DecisionsResponse } from '@/schemas/decisions'
 import type { DecisionSet } from '@/schemas/decisions'
 import type { ProductBrief } from '@/schemas/brief'
+import type { StrategyHypothesis, StrategyJudgment } from '@/schemas/strategy'
 
 /**
  * Jev — TypeSafe's System One decision model.
  *
  * Served from OpenRouter's dedicated Decisions endpoint (alpha), NOT chat
- * completions. All 12 questions travel in one request; Jev evaluates them in
- * parallel with no latency penalty, so splitting them up would only cost
- * round trips.
+ * completions. One request carries both halves of the decision surface: the
+ * per-run strategy criteria (options = the candidate strategies) and the
+ * fixed execution questions. Jev evaluates them in parallel with no latency
+ * penalty, so splitting them up would only cost round trips.
  */
+
+export type JevResult = {
+  /** Execution decisions — what the inspector's sliders edit. */
+  decisions: DecisionSet
+  /** Jev's distribution over the candidate strategies. */
+  judgment: StrategyJudgment
+}
+
+/**
+ * Raw response → execution decisions + strategy judgment. Shared by the live
+ * call and fixture mode so both go through exactly the same code.
+ */
+export function readDecisions(
+  raw: DecisionsResponse,
+  latencyMs: number,
+  hypotheses: StrategyHypothesis[],
+): JevResult {
+  const strategic = strategyQuestions(hypotheses)
+  const decisions = normalizeDecisions(raw, latencyMs, QUESTIONS)
+  const strategySet = normalizeDecisions(raw, latencyMs, strategic)
+
+  // A partial decision set can't produce a coherent direction, and inventing
+  // the gaps would defeat the entire point of the experiment.
+  const missing = [...missingDecisions(strategySet, strategic), ...missingDecisions(decisions)]
+  if (missing.length > 0) {
+    throw new PipelineError(
+      'JEV_MALFORMED',
+      'deciding',
+      'Jev answered only part of the decision set.',
+      `Missing: ${missing.join(', ')}`,
+    )
+  }
+
+  return { decisions, judgment: judgeStrategies(strategySet, hypotheses) }
+}
 
 const TIMEOUT_MS = 20_000
 
@@ -33,7 +71,11 @@ function stateFrom(brief: ProductBrief) {
   }
 }
 
-export async function decide(brief: ProductBrief, apiKey?: string): Promise<DecisionSet> {
+export async function decide(
+  brief: ProductBrief,
+  hypotheses: StrategyHypothesis[],
+  apiKey?: string,
+): Promise<JevResult> {
   const { OPENROUTER_API_KEY, JEV_MODEL, JEV_DECISIONS_URL } = env()
   const started = Date.now()
 
@@ -48,7 +90,7 @@ export async function decide(brief: ProductBrief, apiKey?: string): Promise<Deci
       body: JSON.stringify({
         model: JEV_MODEL,
         state: stateFrom(brief),
-        questions: QUESTIONS,
+        questions: { ...strategyQuestions(hypotheses), ...QUESTIONS },
       }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     })
@@ -93,19 +135,5 @@ export async function decide(brief: ProductBrief, apiKey?: string): Promise<Deci
     )
   }
 
-  const set = normalizeDecisions(parsed.data, Date.now() - started)
-
-  // A partial decision set can't produce a coherent direction, and inventing
-  // the gaps would defeat the entire point of the experiment.
-  const missing = missingDecisions(set)
-  if (missing.length > 0) {
-    throw new PipelineError(
-      'JEV_MALFORMED',
-      'deciding',
-      'Jev answered only part of the decision set.',
-      `Missing: ${missing.join(', ')}`,
-    )
-  }
-
-  return set
+  return readDecisions(parsed.data, Date.now() - started, hypotheses)
 }

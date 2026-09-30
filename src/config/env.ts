@@ -24,6 +24,13 @@ const schema = z.object({
   // $0.001-0.002/page. gpt-4o-mini also works but is being retired by
   // OpenAI through 2026, so it's not the default for anything long-lived.
   COMPOSING_MODEL: z.string().default('openai/gpt-5-nano'),
+  // Reasoning effort for the composing model's calls (hypothesize, compose,
+  // critique). gpt-5-nano at its default effort spends minutes per page on
+  // hidden reasoning; "low" cuts that sharply with no visible loss on these
+  // structured tasks. Set to an empty string for a model with no reasoning
+  // support — with require_parameters on, sending it would exclude every
+  // provider for that model.
+  COMPOSING_REASONING: z.string().default('low'),
   NEXT_PUBLIC_APP_URL: z.string().url().default('http://localhost:3000'),
   USE_FIXTURES: z
     .string()

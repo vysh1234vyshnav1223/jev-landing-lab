@@ -25,10 +25,14 @@ const TIMEOUT_MS = 90_000
 
 type Message = { role: 'system' | 'user' | 'assistant'; content: string }
 
-export type Provider = { model(): string }
+/** `reasoning` is an OpenRouter reasoning effort; undefined sends none. */
+export type Provider = { model(): string; reasoning?(): string | undefined }
 
 export const INTERPRETING: Provider = { model: () => env().OPENROUTER_MODEL }
-export const COMPOSING: Provider = { model: () => env().COMPOSING_MODEL }
+export const COMPOSING: Provider = {
+  model: () => env().COMPOSING_MODEL,
+  reasoning: () => env().COMPOSING_REASONING || undefined,
+}
 
 async function call(
   provider: Provider,
@@ -55,6 +59,7 @@ async function call(
       body: JSON.stringify({
         model: provider.model(),
         messages,
+        ...(provider.reasoning?.() ? { reasoning: { effort: provider.reasoning() } } : {}),
         response_format: {
           type: 'json_schema',
           json_schema: { name: schemaName, strict: true, schema: jsonSchema },

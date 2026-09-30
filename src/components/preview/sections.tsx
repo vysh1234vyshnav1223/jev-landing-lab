@@ -181,6 +181,14 @@ export function Section({ spec }: { spec: SectionSpec }) {
       return <Faq spec={spec} />
     case 'cta':
       return <Cta spec={spec} />
+    case 'story':
+      return <Story spec={spec} />
+    case 'useCases':
+      return <UseCases spec={spec} />
+    case 'codeSample':
+      return <CodeSample spec={spec} />
+    case 'integrations':
+      return <Integrations spec={spec} />
   }
 }
 
@@ -1011,6 +1019,336 @@ function Faq({ spec }: { spec: Of<'faq'> }) {
           )
         })}
       </div>
+    </Shell>
+  )
+}
+
+/* ── story: statement | split | editorial ───────────────────── */
+
+function Facts({ facts }: { facts: Of<'story'>['facts'] }) {
+  if (!facts.length) return null
+  return (
+    <dl className="grid gap-px overflow-hidden border border-[var(--p-border)] bg-[var(--p-border)]" style={cardStyle}>
+      {facts.map((f) => (
+        <div key={f.label} className="flex items-baseline justify-between gap-4 bg-[var(--p-raised)] px-4 py-3">
+          <dt className="text-[0.875rem] text-[var(--p-muted)]">{f.label}</dt>
+          <dd className="text-right text-[0.9375rem] font-semibold">{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+function Story({ spec }: { spec: Of<'story'> }) {
+  const tone = spec.tone ?? 'plain'
+
+  if (spec.layout === 'split') {
+    return (
+      <Shell heading={spec.heading} subheading={spec.subheading} tone={tone} split>
+        <motion.div {...reveal(0)} className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            {spec.paragraphs.map((p) => (
+              <p key={p} className="text-pretty text-[1.0625rem] leading-relaxed text-[var(--p-muted)]">
+                {p}
+              </p>
+            ))}
+          </div>
+          <Facts facts={spec.facts} />
+        </motion.div>
+      </Shell>
+    )
+  }
+
+  if (spec.layout === 'editorial') {
+    return (
+      <section
+        className={cn(SECTION, tone === 'surface' && 'bg-[var(--p-surface)]')}
+        style={{ paddingTop: 'var(--p-section-y)', paddingBottom: 'var(--p-section-y)' }}
+      >
+        <motion.div {...reveal(0)} className="mx-auto max-w-5xl">
+          {spec.eyebrow && (
+            <p className="p-eyebrow mb-4 text-[0.75rem] font-medium uppercase tracking-[0.12em] text-[var(--p-accent)]">
+              {spec.eyebrow}
+            </p>
+          )}
+          <h2 className="max-w-3xl text-balance text-[clamp(1.875rem,4.4vw,3.25rem)] leading-[1.08]" style={headingStyle}>
+            {spec.heading}
+          </h2>
+          <div className="mt-8 gap-10 text-[1.0625rem] leading-relaxed text-[var(--p-muted)] sm:columns-2">
+            {spec.paragraphs.map((p) => (
+              <p key={p} className="mb-4 break-inside-avoid text-pretty">
+                {p}
+              </p>
+            ))}
+          </div>
+          {spec.facts.length > 0 && (
+            <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-[var(--p-border)] pt-6">
+              {spec.facts.map((f) => (
+                <div key={f.label}>
+                  <dt className="text-[0.75rem] uppercase tracking-[0.08em] text-[var(--p-muted)]">{f.label}</dt>
+                  <dd className="mt-1 text-[1.125rem]" style={headingStyle}>
+                    {f.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </motion.div>
+      </section>
+    )
+  }
+
+  return (
+    <section
+      className={cn(SECTION, tone === 'surface' && 'bg-[var(--p-surface)]')}
+      style={{ paddingTop: 'calc(var(--p-section-y) * 1.25)', paddingBottom: 'calc(var(--p-section-y) * 1.25)' }}
+    >
+      <motion.div {...reveal(0)} className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+        {spec.eyebrow && (
+          <p className="p-eyebrow text-[0.75rem] font-medium uppercase tracking-[0.12em] text-[var(--p-accent)]">
+            {spec.eyebrow}
+          </p>
+        )}
+        <h2 className="text-balance text-[clamp(1.75rem,4vw,2.875rem)] leading-tight" style={headingStyle}>
+          {spec.heading}
+        </h2>
+        {spec.paragraphs.map((p) => (
+          <p key={p} className="max-w-2xl text-pretty text-[1.125rem] leading-relaxed text-[var(--p-muted)]">
+            {p}
+          </p>
+        ))}
+        {spec.facts.length > 0 && (
+          <dl className="mt-2 flex flex-wrap justify-center gap-x-10 gap-y-4">
+            {spec.facts.map((f) => (
+              <div key={f.label} className="flex flex-col-reverse">
+                <dt className="mt-0.5 text-[0.8125rem] text-[var(--p-muted)]">{f.label}</dt>
+                <dd className="text-[1.375rem]" style={headingStyle}>
+                  {f.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </motion.div>
+    </section>
+  )
+}
+
+/* ── use cases: tabs | tiles ────────────────────────────────── */
+
+function UseCases({ spec }: { spec: Of<'useCases'> }) {
+  const pillId = useId()
+  const [active, setActive] = useState(0)
+  const reduced = useReducedMotion()
+  const tone = spec.tone ?? 'plain'
+
+  if (spec.layout === 'tiles') {
+    return (
+      <Shell heading={spec.heading} subheading={spec.subheading} tone={tone}>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {spec.items.map((item, i) => (
+            <motion.div
+              key={item.title}
+              {...reveal(i)}
+              className="group flex flex-col gap-3 border border-[var(--p-border)] bg-[var(--p-raised)] p-5 transition-colors duration-200 hover:border-[var(--p-border-strong)]"
+              style={cardStyle}
+            >
+              <IconBadge name={item.icon} />
+              <div>
+                <h3 className="mb-1 text-[1rem] font-semibold">{item.title}</h3>
+                <p className="text-[0.9375rem] leading-relaxed text-[var(--p-muted)]">{item.body}</p>
+              </div>
+              <p className="mt-auto flex items-center gap-1.5 border-t border-[var(--p-border)] pt-3 text-[0.875rem] font-medium text-[var(--p-accent)]">
+                {item.recommendation}
+                <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </Shell>
+    )
+  }
+
+  const item = spec.items[active] ?? spec.items[0]
+  return (
+    <Shell heading={spec.heading} subheading={spec.subheading} tone={tone}>
+      <div role="tablist" aria-label={spec.heading} className="mb-6 flex flex-wrap gap-2">
+        {spec.items.map((it, i) => (
+          <button
+            key={it.title}
+            type="button"
+            role="tab"
+            aria-selected={i === active}
+            onClick={() => setActive(i)}
+            className={cn(
+              'relative px-3.5 py-2 text-[0.875rem] font-medium transition-colors',
+              i === active ? 'text-[var(--p-accent-fg)]' : 'text-[var(--p-muted)] hover:text-[var(--p-text)]',
+            )}
+            style={{ borderRadius: '99px' }}
+          >
+            {i === active && (
+              <motion.span
+                layoutId={pillId}
+                transition={transition.gentle}
+                className="absolute inset-0"
+                style={{ borderRadius: '99px', background: 'var(--p-accent)' }}
+              />
+            )}
+            <span className="relative z-10">{it.title}</span>
+          </button>
+        ))}
+      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={item.title}
+          role="tabpanel"
+          initial={reduced ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduced ? undefined : { opacity: 0, y: -6 }}
+          transition={transition.normal}
+          className="grid gap-6 border border-[var(--p-border)] bg-[var(--p-raised)] p-6 sm:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)] sm:items-center sm:p-8"
+          style={cardStyle}
+        >
+          <IconBadge name={item.icon} large />
+          <div>
+            <h3 className="mb-1.5 text-[1.25rem] font-semibold leading-snug">{item.title}</h3>
+            <p className="text-[0.9375rem] leading-relaxed text-[var(--p-muted)]">{item.body}</p>
+          </div>
+          <div className="p-4" style={{ ...cardStyle, background: 'var(--p-accent-soft)' }}>
+            <p className="text-[0.6875rem] font-medium uppercase tracking-[0.08em] text-[var(--p-muted)]">Pick</p>
+            <p className="mt-1 text-[1rem] font-semibold text-[var(--p-accent)]">{item.recommendation}</p>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </Shell>
+  )
+}
+
+/* ── code sample: split | stacked ───────────────────────────── */
+
+function CodeBlock({ snippets }: { snippets: Of<'codeSample'>['snippets'] }) {
+  const [active, setActive] = useState(0)
+  const snippet = snippets[active] ?? snippets[0]
+  const rule = 'color-mix(in srgb, var(--p-bg) 15%, transparent)'
+  return (
+    <div
+      className="min-w-0 overflow-hidden shadow-[var(--p-shadow)]"
+      style={{ ...cardStyle, background: 'var(--p-text)', color: 'var(--p-bg)' }}
+    >
+      <div className="flex items-center gap-1 border-b px-3 py-2" style={{ borderColor: rule }}>
+        {snippets.map((s, i) => (
+          <button
+            key={s.label}
+            type="button"
+            onClick={() => setActive(i)}
+            aria-pressed={i === active}
+            className={cn(
+              'p-mono px-2 py-1 text-[0.75rem] transition-opacity',
+              i === active ? 'opacity-100' : 'opacity-50 hover:opacity-80',
+            )}
+            style={{ borderRadius: 'var(--p-radius)', background: i === active ? rule : undefined }}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+      <pre className="p-mono overflow-x-auto p-4 text-[0.8125rem] leading-relaxed">
+        <code>{snippet.code}</code>
+      </pre>
+    </div>
+  )
+}
+
+function CodeSample({ spec }: { spec: Of<'codeSample'> }) {
+  const tone = spec.tone ?? 'plain'
+
+  if (spec.layout === 'stacked' || spec.points.length === 0) {
+    return (
+      <Shell heading={spec.heading} subheading={spec.subheading} tone={tone}>
+        <motion.div {...reveal(0)}>
+          <CodeBlock snippets={spec.snippets} />
+        </motion.div>
+        {spec.points.length > 0 && (
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {spec.points.map((p, i) => (
+              <motion.div key={p.title} {...reveal(i + 1)}>
+                <h3 className="mb-1 text-[1rem] font-semibold">{p.title}</h3>
+                <p className="text-[0.9375rem] leading-relaxed text-[var(--p-muted)]">{p.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </Shell>
+    )
+  }
+
+  return (
+    <Shell heading={spec.heading} subheading={spec.subheading} tone={tone}>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start">
+        <div className="flex flex-col gap-5">
+          {spec.points.map((p, i) => (
+            <motion.div key={p.title} {...reveal(i)} className="border-l-2 border-[var(--p-accent)] pl-4">
+              <h3 className="mb-1 text-[1rem] font-semibold">{p.title}</h3>
+              <p className="text-[0.9375rem] leading-relaxed text-[var(--p-muted)]">{p.body}</p>
+            </motion.div>
+          ))}
+        </div>
+        <motion.div {...reveal(1)} className="min-w-0">
+          <CodeBlock snippets={spec.snippets} />
+        </motion.div>
+      </div>
+    </Shell>
+  )
+}
+
+/* ── integrations: grid | inline ────────────────────────────── */
+
+function Integrations({ spec }: { spec: Of<'integrations'> }) {
+  const tone = spec.tone ?? 'surface'
+
+  if (spec.layout === 'inline') {
+    return (
+      <Shell heading={spec.heading} subheading={spec.subheading} center tone={tone}>
+        <ul className="flex flex-wrap justify-center gap-2">
+          {spec.items.map((it, i) => (
+            <motion.li
+              key={it.name}
+              {...reveal(i)}
+              title={it.detail}
+              className="border border-[var(--p-border)] bg-[var(--p-raised)] px-3.5 py-2 text-[0.9375rem] font-medium"
+              style={{ borderRadius: '99px' }}
+            >
+              {it.name}
+            </motion.li>
+          ))}
+        </ul>
+      </Shell>
+    )
+  }
+
+  return (
+    <Shell heading={spec.heading} subheading={spec.subheading} tone={tone}>
+      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {spec.items.map((it, i) => (
+          <motion.li
+            key={it.name}
+            {...reveal(i)}
+            className="flex items-center gap-3 border border-[var(--p-border)] bg-[var(--p-raised)] p-4"
+            style={cardStyle}
+          >
+            <span
+              className="p-mono grid size-9 shrink-0 place-items-center text-[0.875rem] font-semibold"
+              style={{ ...softBadge, borderRadius: 'var(--p-radius)' }}
+            >
+              {it.name.charAt(0)}
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[0.9375rem] font-semibold">{it.name}</span>
+              <span className="block text-[0.8125rem] text-[var(--p-muted)]">{it.detail}</span>
+            </span>
+          </motion.li>
+        ))}
+      </ul>
     </Shell>
   )
 }

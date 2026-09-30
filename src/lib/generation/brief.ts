@@ -23,6 +23,9 @@ Rules:
 - Do not write marketing copy. This is context, not content.
 - Return JSON only.`
 
+/** Free models sometimes return a placeholder instead of inventing a name. */
+const PLACEHOLDER_NAME = /^(|unnamed.*|untitled.*|n\/a|none|tbd|product( name)?|brand( name)?|your (product|brand))$/i
+
 export async function extractBrief(input: BriefInput, apiKey?: string): Promise<ProductBrief> {
   const hints = [
     input.audience && `Stated audience: ${input.audience}`,
@@ -38,7 +41,10 @@ export async function extractBrief(input: BriefInput, apiKey?: string): Promise<
     user: `Brief:\n${input.brief}${hints ? `\n\n${hints}\n(Prefer these stated values over your own inference.)` : ''}`,
     schemaName: 'product_brief',
     jsonSchema: productBriefJsonSchema,
-    validator: productBrief,
+    validator: productBrief.refine((b) => !PLACEHOLDER_NAME.test(b.productName.trim()), {
+      path: ['productName'],
+      message: 'Invent a short, plausible brand name; do not use a placeholder.',
+    }),
     stage: 'interpreting',
     apiKey,
   })

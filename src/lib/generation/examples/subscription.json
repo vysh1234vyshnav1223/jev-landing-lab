@@ -1,0 +1,954 @@
+{
+  "id": "subscription",
+  "label": "Meal-kit subscription",
+  "brief": "A weekly meal-kit subscription for busy families in the UK: three or four dinners a week, recipes under 30 minutes, kids-approved, delivered in recyclable packaging. You pick meals each week and can skip or pause any time. Parents are tired of deciding what to cook every night. We want them to start their first box.",
+  "result": {
+    "brief": {
+      "industry": "Food & Grocery",
+      "product": "Weekly meal-kit subscription offering three or four dinners per week with recipes under 30 minutes, kids-approved, delivered in recyclable packaging; customers select meals weekly and can skip or pause any time.",
+      "audience": "Busy UK parents cooking for a family",
+      "primaryGoal": "Start a first box",
+      "secondaryGoals": [
+        "Increase subscription retention",
+        "Encourage meal customization",
+        "Promote sustainable packaging"
+      ],
+      "brandAttributes": [
+        "Warm",
+        "Easy",
+        "Reliable"
+      ],
+      "conversionAction": "start your first box",
+      "geography": "United Kingdom",
+      "competitors": [
+        "HelloFresh UK",
+        "Gousto",
+        "Mindful Chef"
+      ],
+      "priceContext": "Subscription-based; price per serving varies with plan selection; flexible skip/pause options.",
+      "productName": "Meal Kit Subscription"
+    },
+    "hypotheses": [
+      {
+        "name": "Warmth and Convenience",
+        "archetype": "brand_product",
+        "thesis": "Position the meal kit as a warm, easy weekly ritual for busy UK families, delivering reliable dinners in under 30 minutes with kid-friendly options and sustainable packaging.",
+        "persuasion": "Emphasize emotional reassurance (home, routine, trust) and quick wins (time saved, kids enjoy meals) to reduce perceived effort and risk.",
+        "audienceFraming": "Speak directly to UK parents juggling school runs, work from home, and family meals; frame the product as a trusted weekly helper.",
+        "narrative": [
+          "Bookend the week with familiar, comforting family dinners.",
+          "Paint a picture of the routine: shopping-free evenings, real-time meal customization, recyclable packaging.",
+          "Close with a practical guarantee: easy skip/pause, transparent pricing, and dependable delivery."
+        ],
+        "hero": {
+          "variant": "value_prop",
+          "purpose": "Convey the core benefit that the product makes family dinners effortless and reliable."
+        },
+        "conversion": {
+          "approach": "direct_action",
+          "rationale": "Encourage immediate action by presenting a clear first-box value and simple steps to get started."
+        },
+        "sections": [
+          {
+            "type": "story",
+            "purpose": "Set the scene of busy family life and introduce the product as a trustworthy helper.",
+            "essential": true
+          },
+          {
+            "type": "explainer",
+            "purpose": "Explain how the service works in simple steps (choose meals, receive kits, cook in under 30 minutes).",
+            "essential": true
+          },
+          {
+            "type": "featureGrid",
+            "purpose": "Showcase core capabilities: weekly meal choice, family-friendly recipes, quick prep, recyclable packaging, skip/pause.",
+            "essential": true
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Establish credibility with a story-driven proof point (press, family reviews).",
+            "essential": true
+          },
+          {
+            "type": "testimonials",
+            "purpose": "Share short, named parent stories about ease and time saved.",
+            "essential": false
+          },
+          {
+            "type": "showcase",
+            "purpose": "Gallery of sample meals to spark recognition and desire.",
+            "essential": false
+          },
+          {
+            "type": "cta",
+            "purpose": "Primary prompt to start the first box.",
+            "essential": true
+          }
+        ],
+        "id": "warmth_and_convenience"
+      },
+      {
+        "name": "Trust and Reliability",
+        "archetype": "brand_product",
+        "thesis": "Build trust by foregrounding reliability, consistent quality, and effortless management of the subscription.",
+        "persuasion": "Leverage social proof, guarantees, and predictable outcomes to reduce hesitation and perceived risk.",
+        "audienceFraming": "Address parental concern about meal quality and consistency amid busy weeks.",
+        "narrative": [
+          "A dependable rhythm: meals you can rely on, every week.",
+          "A focus on quality, sourcing, and consistent delivery performance.",
+          "A no-surprise renewal process that respects your time and budget."
+        ],
+        "hero": {
+          "variant": "social_proof",
+          "purpose": "Lead with credibility to reassure first-time buyers."
+        },
+        "conversion": {
+          "approach": "direct_action",
+          "rationale": "nudge toward starting a first box by combining proof with a clear path to action."
+        },
+        "sections": [
+          {
+            "type": "story",
+            "purpose": "Anecdote of a family relying on a weekly delivery to avoid last-minute dinners.",
+            "essential": true
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Highlight ratings, awards, or press quotes to establish credibility.",
+            "essential": true
+          },
+          {
+            "type": "testimonials",
+            "purpose": "Longer customer stories emphasizing consistency and ease.",
+            "essential": false
+          },
+          {
+            "type": "stats",
+            "purpose": "Quantify reliability (on-time delivery %, satisfaction scores).",
+            "essential": false
+          },
+          {
+            "type": "explainer",
+            "purpose": "Clarify how to manage the subscription (skip/pause, adjust meals).",
+            "essential": true
+          },
+          {
+            "type": "comparison",
+            "purpose": "Position against competitors with a focus on reliability and simplicity.",
+            "essential": false
+          },
+          {
+            "type": "faq",
+            "purpose": "Address common worries (delivery windows, substitutions, packaging).",
+            "essential": false
+          },
+          {
+            "type": "cta",
+            "purpose": "Prompt to start the first box.",
+            "essential": true
+          }
+        ],
+        "id": "trust_and_reliability"
+      },
+      {
+        "name": "Sustainability and Health",
+        "archetype": "brand_product",
+        "thesis": "Differentiate with a strong commitment to recyclable packaging and healthier, kid-friendly meals.",
+        "persuasion": "Appeal to eco-conscious values and family health without sacrificing convenience.",
+        "audienceFraming": "Speak to parents who care about planet-friendly choices and quick, balanced meals.",
+        "narrative": [
+          "Green choices that fit a busy week.",
+          "Health-forward menus with quick prep time.",
+          "Packaging that’s easy on the planet and the recycling bin."
+        ],
+        "hero": {
+          "variant": "value_prop",
+          "purpose": "Emphasize eco-friendly packaging and wholesome meals."
+        },
+        "conversion": {
+          "approach": "explore",
+          "rationale": "Encourage browsing of sustainability features before committing to a box."
+        },
+        "sections": [
+          {
+            "type": "story",
+            "purpose": "Set a values-led context: sustainable, family-friendly dinners start here.",
+            "essential": true
+          },
+          {
+            "type": "explainer",
+            "purpose": "Explain sustainability commitments (recyclable packaging, sourcing) and nutrition.",
+            "essential": true
+          },
+          {
+            "type": "showcase",
+            "purpose": "Display sample meals highlighting healthy, kid-approved options.",
+            "essential": true
+          },
+          {
+            "type": "stats",
+            "purpose": "Share numbers on packaging recyclability, waste reduction, and nutrition.",
+            "essential": false
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Citations from eco and parenting media or certifications.",
+            "essential": false
+          },
+          {
+            "type": "comparison",
+            "purpose": "Show how this plan stacks against non-sustainable competitors.",
+            "essential": false
+          },
+          {
+            "type": "faq",
+            "purpose": "Answer questions on packaging and nutrition.",
+            "essential": false
+          },
+          {
+            "type": "cta",
+            "purpose": "Invite to start the first box with a sustainability angle.",
+            "essential": true
+          }
+        ],
+        "id": "sustainability_and_health"
+      },
+      {
+        "name": "Discovery and Customization",
+        "archetype": "brand_product",
+        "thesis": "Empower parents to tailor weekly menus and control their subscription with ease.",
+        "persuasion": "Highlight flexible customization and frictionless management to reduce commitment anxiety.",
+        "audienceFraming": "Frame as a control-centered choice for busy households who want to shape meals week by week.",
+        "narrative": [
+          "Control your weekly menu, delivery and budget.",
+          "A sense of calm knowing meals fit your family’s needs.",
+          "A simple, reliable path from signup to dinner."
+        ],
+        "hero": {
+          "variant": "value_prop",
+          "purpose": "Showcase customization and control as the core benefit."
+        },
+        "conversion": {
+          "approach": "explore",
+          "rationale": "Encourage browsing of customization options before committing to a box."
+        },
+        "sections": [
+          {
+            "type": "story",
+            "purpose": "Describe the empowerment of customizing meals for a busy family.",
+            "essential": true
+          },
+          {
+            "type": "explainer",
+            "purpose": "Detail how to customize meals, skip weeks, and pause deliveries.",
+            "essential": true
+          },
+          {
+            "type": "featureGrid",
+            "purpose": "Highlight flexible plan controls, weekly choice, and kid-friendly options.",
+            "essential": true
+          },
+          {
+            "type": "socialProof",
+            "purpose": "Show testimonials focused on control and satisfaction.",
+            "essential": false
+          },
+          {
+            "type": "faq",
+            "purpose": "Answer common questions about customization and billing.",
+            "essential": false
+          },
+          {
+            "type": "cta",
+            "purpose": "Promote starting a first box with emphasis on control.",
+            "essential": true
+          }
+        ],
+        "id": "discovery_and_customization"
+      }
+    ],
+    "decisions": {
+      "decisions": {
+        "socialProofType": {
+          "id": "socialProofType",
+          "type": "choice",
+          "question": "Which form of social proof will carry the most weight with this audience?",
+          "ranked": [
+            {
+              "option": "testimonials",
+              "label": "Named individual quotes; the audience responds to human stories",
+              "probability": 0.77
+            },
+            {
+              "option": "ratings_reviews",
+              "label": "Aggregate star ratings and review counts; consumer purchase with many alternatives",
+              "probability": 0.23
+            },
+            {
+              "option": "customer_logos",
+              "label": "Recognisable company names; the audience is professional and judges by peers",
+              "probability": 0
+            },
+            {
+              "option": "metrics",
+              "label": "Hard numbers — users, volume, ratings; the audience responds to scale",
+              "probability": 0
+            }
+          ],
+          "selected": "testimonials",
+          "confidence": 0.7,
+          "entropy": 0.7780113035465377
+        },
+        "visualDirection": {
+          "id": "visualDirection",
+          "type": "choice",
+          "question": "Which visual register best matches this brand and audience?",
+          "ranked": [
+            {
+              "option": "warm_editorial",
+              "label": "Generous spacing, imagery-led, magazine-like — reads as inviting and considered",
+              "probability": 1
+            },
+            {
+              "option": "bold_confident",
+              "label": "High contrast, strong type, saturated accent — reads as decisive and modern",
+              "probability": 0
+            },
+            {
+              "option": "clean_utility",
+              "label": "Neutral, dense, efficient — reads as a reliable tool",
+              "probability": 0
+            },
+            {
+              "option": "technical_precise",
+              "label": "Monospace accents, fine borders, restrained palette — reads as built for experts",
+              "probability": 0
+            }
+          ],
+          "selected": "warm_editorial",
+          "confidence": 1,
+          "entropy": 0
+        },
+        "navigationComplexity": {
+          "id": "navigationComplexity",
+          "type": "score",
+          "question": "How much navigation does this page need for the visitor to feel oriented without being distracted from the primary action?",
+          "score": 0.73,
+          "levels": [
+            "Almost none — a wordmark and a single action; anything more competes with conversion",
+            "Moderate — a few destinations plus the primary action",
+            "Full — multiple sections and categories; the visitor genuinely needs to navigate"
+          ],
+          "ranked": [
+            {
+              "option": "1",
+              "label": "Moderate — a few destinations plus the primary action",
+              "probability": 0.71
+            },
+            {
+              "option": "0",
+              "label": "Almost none — a wordmark and a single action; anything more competes with conversion",
+              "probability": 0.28
+            },
+            {
+              "option": "2",
+              "label": "Full — multiple sections and categories; the visitor genuinely needs to navigate",
+              "probability": 0.01
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.57,
+          "entropy": 0.5876961482220877
+        },
+        "offerProminence": {
+          "id": "offerProminence",
+          "type": "score",
+          "question": "How prominent should price, offers or commercial terms be on this page?",
+          "score": 1.21,
+          "levels": [
+            "Absent — price is not how this decision is made, or is not public",
+            "Present but secondary — available for those who look, not leading",
+            "Leading — price or offer is the strongest argument and belongs high on the page"
+          ],
+          "ranked": [
+            {
+              "option": "1",
+              "label": "Present but secondary — available for those who look, not leading",
+              "probability": 0.76
+            },
+            {
+              "option": "2",
+              "label": "Leading — price or offer is the strongest argument and belongs high on the page",
+              "probability": 0.23
+            },
+            {
+              "option": "0",
+              "label": "Absent — price is not how this decision is made, or is not public",
+              "probability": 0.01
+            }
+          ],
+          "selected": 1,
+          "confidence": 0.64,
+          "entropy": 0.5394525291768463
+        },
+        "trustIsPrimaryBarrier": {
+          "id": "trustIsPrimaryBarrier",
+          "type": "noul",
+          "question": "Is trust or credibility the main thing preventing this audience from converting?",
+          "probability": 0.33,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.9149263727797275
+        },
+        "requiresEducation": {
+          "id": "requiresEducation",
+          "type": "noul",
+          "question": "Does the visitor need to be taught something before the offer makes sense?",
+          "probability": 0.21,
+          "value": false,
+          "confidence": null,
+          "entropy": 0.7414827399312737
+        }
+      },
+      "meta": {
+        "decisionId": "gen-dec-1790752040-ZXbip0jCaOb7ItACejso",
+        "model": "typesafe/jev-1.13-20260917",
+        "latencyMs": 767,
+        "cost": 0.000403032
+      }
+    },
+    "judgment": {
+      "ranked": [
+        {
+          "id": "warmth_and_convenience",
+          "name": "Warmth and Convenience",
+          "probability": 0.9225
+        },
+        {
+          "id": "discovery_and_customization",
+          "name": "Discovery and Customization",
+          "probability": 0.035
+        },
+        {
+          "id": "sustainability_and_health",
+          "name": "Sustainability and Health",
+          "probability": 0.03375
+        },
+        {
+          "id": "trust_and_reliability",
+          "name": "Trust and Reliability",
+          "probability": 0.00875
+        }
+      ],
+      "selected": "warmth_and_convenience",
+      "criteria": [
+        {
+          "id": "strategyOverall",
+          "label": "Overall",
+          "weight": 2,
+          "confidence": 1,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 1
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyAudienceFit",
+          "label": "Audience fit",
+          "weight": 1,
+          "confidence": 0.97,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 0.97
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0.02
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0.01
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyProductFit",
+          "label": "Product fit",
+          "weight": 1,
+          "confidence": 0.99,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 1
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyConversion",
+          "label": "Conversion",
+          "weight": 1,
+          "confidence": 0.99,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 0.99
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0.01
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyCoherence",
+          "label": "Coherence",
+          "weight": 1,
+          "confidence": 0.98,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 0.98
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0.01
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0.01
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0
+            }
+          ]
+        },
+        {
+          "id": "strategyDifferentiation",
+          "label": "Differentiation",
+          "weight": 1,
+          "confidence": 0.42,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 0.57
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0.27
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0.13
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0.03
+            }
+          ]
+        },
+        {
+          "id": "strategyEvidence",
+          "label": "Evidence",
+          "weight": 1,
+          "confidence": 0.82,
+          "ranked": [
+            {
+              "id": "warmth_and_convenience",
+              "probability": 0.87
+            },
+            {
+              "id": "discovery_and_customization",
+              "probability": 0.13
+            },
+            {
+              "id": "sustainability_and_health",
+              "probability": 0
+            },
+            {
+              "id": "trust_and_reliability",
+              "probability": 0
+            }
+          ]
+        }
+      ]
+    },
+    "blueprint": {
+      "strategyId": "warmth_and_convenience",
+      "strategyName": "Warmth and Convenience",
+      "archetype": "brand_product",
+      "strategicGoal": "Get Busy UK parents cooking for a family to start your first box.",
+      "thesis": "Position the meal kit as a warm, easy weekly ritual for busy UK families, delivering reliable dinners in under 30 minutes with kid-friendly options and sustainable packaging.",
+      "persuasion": "Emphasize emotional reassurance (home, routine, trust) and quick wins (time saved, kids enjoy meals) to reduce perceived effort and risk.",
+      "audienceFraming": "Speak directly to UK parents juggling school runs, work from home, and family meals; frame the product as a trusted weekly helper.",
+      "narrative": [
+        "Bookend the week with familiar, comforting family dinners.",
+        "Paint a picture of the routine: shopping-free evenings, real-time meal customization, recyclable packaging.",
+        "Close with a practical guarantee: easy skip/pause, transparent pricing, and dependable delivery."
+      ],
+      "hero": {
+        "variant": "value_prop",
+        "purpose": "Convey the core benefit that the product makes family dinners effortless and reliable.",
+        "trustSignals": false
+      },
+      "sections": [
+        {
+          "key": "s1_story",
+          "type": "story",
+          "purpose": "Set the scene of busy family life and introduce the product as a trustworthy helper.",
+          "required": true
+        },
+        {
+          "key": "s2_explainer",
+          "type": "explainer",
+          "purpose": "Explain how the service works in simple steps (choose meals, receive kits, cook in under 30 minutes).",
+          "required": false
+        },
+        {
+          "key": "s3_featureGrid",
+          "type": "featureGrid",
+          "purpose": "Showcase core capabilities: weekly meal choice, family-friendly recipes, quick prep, recyclable packaging, skip/pause.",
+          "required": true
+        },
+        {
+          "key": "s4_testimonials",
+          "type": "testimonials",
+          "purpose": "Share short, named parent stories about ease and time saved.",
+          "required": false
+        },
+        {
+          "key": "s5_showcase",
+          "type": "showcase",
+          "purpose": "Gallery of sample meals to spark recognition and desire.",
+          "required": false
+        },
+        {
+          "key": "s6_cta",
+          "type": "cta",
+          "purpose": "Primary prompt to start the first box.",
+          "required": true
+        }
+      ],
+      "forbidden": [
+        {
+          "type": "search",
+          "reason": "Not part of a product brand page."
+        },
+        {
+          "type": "pricing",
+          "reason": "Not part of a product brand page."
+        },
+        {
+          "type": "useCases",
+          "reason": "Not part of a product brand page."
+        },
+        {
+          "type": "codeSample",
+          "reason": "Not part of a product brand page."
+        },
+        {
+          "type": "integrations",
+          "reason": "Not part of a product brand page."
+        }
+      ],
+      "removed": [
+        {
+          "type": "socialProof",
+          "purpose": "Establish credibility with a story-driven proof point (press, family reviews).",
+          "reason": "Jev chose testimonials as the proof form, and the testimonials section already carries them."
+        }
+      ],
+      "visual": {
+        "direction": "warm_editorial"
+      },
+      "conversion": {
+        "approach": "direct_action",
+        "action": "start your first box",
+        "rationale": "Encourage immediate action by presenting a clear first-box value and simple steps to get started."
+      },
+      "proof": {
+        "type": "testimonials"
+      },
+      "navigation": {
+        "maxLinks": 3,
+        "sticky": true
+      },
+      "offer": {
+        "prominence": 1,
+        "pricesAllowed": true
+      },
+      "contentRequirements": [
+        "Every section does the job its purpose names, in the order given. Do not repurpose a section.",
+        "The primary CTA asks the visitor to start your first box — ask for the core action immediately (buy, book, search, sign up).",
+        "Frame the visitor as: Speak directly to UK parents juggling school runs, work from home, and family meals; frame the product as a trusted weekly helper..",
+        "Trust is not the barrier: no trust-signal chips in the hero.",
+        "Price is secondary: mention it only where a visitor would look for it."
+      ],
+      "constraints": [
+        "No performance percentages, multipliers or benchmark results unless the brief states them.",
+        "No awards, certifications, press mentions or rankings unless the brief states them.",
+        "Never name real, well-known companies as customers, partners or integrations unless the brief does; plausible illustrative names are fine.",
+        "Testimonials, reviewer names and sample items are illustrative: keep them ordinary and plausible, never superlative.",
+        "Say nothing that belongs to a different kind of business than this one."
+      ]
+    },
+    "spec": {
+      "theme": {
+        "direction": "warm_editorial",
+        "accent": "amber"
+      },
+      "navigation": {
+        "wordmark": "Meal Kit Co.",
+        "links": [
+          {
+            "label": "Our Boxes",
+            "href": "/our-boxes"
+          },
+          {
+            "label": "Recipes",
+            "href": "/recipes"
+          },
+          {
+            "label": "Sustainable Packaging",
+            "href": "/sustainability"
+          }
+        ],
+        "ctaLabel": "Start a Box",
+        "sticky": true
+      },
+      "hero": {
+        "variant": "value_prop",
+        "eyebrow": null,
+        "headline": "Family dinners that fit a busy week",
+        "subheadline": "Three or four quick, kid-friendly meals arrive each week in recyclable packaging. No shopping, no stress, just reliable evenings around the table.",
+        "primaryCta": "Start Your First Box",
+        "secondaryCta": null,
+        "trustSignals": [],
+        "searchFields": [],
+        "demoSteps": []
+      },
+      "sections": [
+        {
+          "type": "story",
+          "heading": "A familiar week, made simpler",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s1_story",
+          "layout": "statement",
+          "eyebrow": "For UK families",
+          "paragraphs": [
+            "Between school runs, work calls, and after-school activities, cooking can feel like a repetitive hurdle. You want meals your kids will actually eat, without a shopping trip or another late-night decision.",
+            "Meal Kit Co. delivers a trusted weekly ritual: easy-to-follow dinners under 30 minutes, with family-tested recipes and recyclable packaging. It’s the steady help you rely on, week after week."
+          ],
+          "facts": []
+        },
+        {
+          "type": "explainer",
+          "heading": "How it works",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s2_explainer",
+          "layout": "cards",
+          "steps": [
+            {
+              "title": "Choose your meals",
+              "body": "Pick three or four dinners from a rotating, kid-friendly menu each week."
+            },
+            {
+              "title": "Get kits delivered",
+              "body": "Your ingredients arrive fresh in recyclable packaging on your chosen delivery day."
+            },
+            {
+              "title": "Cook in under 30 minutes",
+              "body": "Follow simple steps and have dinner ready fast—perfect for busy weekdays."
+            }
+          ]
+        },
+        {
+          "type": "featureGrid",
+          "heading": "What you get each week",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s3_featureGrid",
+          "layout": "cards",
+          "items": [
+            {
+              "icon": "calendar-check",
+              "title": "Weekly meal choice",
+              "body": "Three or four dinners to fit your family’s schedule."
+            },
+            {
+              "icon": "child",
+              "title": "Kid-friendly recipes",
+              "body": "Plates that little eaters will approve."
+            },
+            {
+              "icon": "clock",
+              "title": "Under 30 minutes",
+              "body": "From box to table in half an hour."
+            },
+            {
+              "icon": "recycle",
+              "title": "Recyclable packaging",
+              "body": "Less waste, simpler disposal."
+            },
+            {
+              "icon": "pause",
+              "title": "Skip or pause anytime",
+              "body": "If plans change, your next box adapts."
+            }
+          ]
+        },
+        {
+          "type": "testimonials",
+          "heading": "Loved by families like yours",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s4_testimonials",
+          "layout": "grid",
+          "items": [
+            {
+              "quote": "Wednesdays used to be a meal scramble. Now it’s a calm, quick routine.",
+              "name": "Emma T.",
+              "role": " mum of two"
+            },
+            {
+              "quote": "Three dinners I actually look forward to. The kids eat every bite.",
+              "name": "Daniel R.",
+              "role": " dad of two"
+            },
+            {
+              "quote": "Delivery is reliable and the packaging is easy to recycle. It fits our week.",
+              "name": "Priya M.",
+              "role": " solicitor"
+            }
+          ]
+        },
+        {
+          "type": "showcase",
+          "heading": "Sample meals you’ll recognise",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s5_showcase",
+          "layout": "grid",
+          "categories": [
+            "Curry Night",
+            "Roast & Sides",
+            "Pasta & More"
+          ],
+          "items": [
+            {
+              "title": "Beef Balti one-pot",
+              "meta": "28 min",
+              "detail": "Mild curry with rice and peas",
+              "category": "Curry Night",
+              "badge": "family pick"
+            },
+            {
+              "title": "Herby roasted chicken traybake",
+              "meta": "28 min",
+              "detail": "Roast veg and herby chicken",
+              "category": "Roast & Sides",
+              "badge": null
+            },
+            {
+              "title": "Creamy tomato pasta",
+              "meta": "25 min",
+              "detail": "Kids-friendly pasta with basil",
+              "category": "Pasta & More",
+              "badge": "new"
+            }
+          ]
+        },
+        {
+          "type": "cta",
+          "heading": "Ready to start your first week?",
+          "subheading": null,
+          "tone": "plain",
+          "slot": "s6_cta",
+          "layout": "card",
+          "primaryCta": "Start Your First Box",
+          "secondaryCta": "Customize My Box",
+          "reassurance": null
+        }
+      ],
+      "footer": {
+        "tagline": "Meal Kit Co. — reliable weeknight helpers for UK families",
+        "columns": [
+          {
+            "title": "Family & Home",
+            "links": [
+              "Meal planning",
+              "School runs",
+              "Work from home tips"
+            ]
+          },
+          {
+            "title": "Sustainability",
+            "links": [
+              "Recyclable packaging",
+              "Waste reduction",
+              "Local sourcing"
+            ]
+          }
+        ]
+      }
+    },
+    "critique": {
+      "valid": true,
+      "issues": [
+        {
+          "type": "conversion_misalignment",
+          "severity": "blocking",
+          "target": "s5_showcase",
+          "reason": "Sample meal shows 40 min while the service promises meals under 30 minutes (and other sections reinforce under-30-minute prep). This misleads on core promise.",
+          "fix": "Update the showcase item to 28–30 minutes (or remove any item exceeding 30 minutes) to keep timing claims consistent with the explainer and feature grid."
+        }
+      ],
+      "remaining": [],
+      "repaired": [
+        "s5_showcase"
+      ],
+      "reviewer": "model"
+    }
+  }
+}

@@ -48,4 +48,40 @@ export const EXAMPLES = [
     primaryGoal: 'Book an admissions call',
     brandAttributes: ['Supportive', 'Credible', 'Practical'],
   },
+  {
+    id: 'sports',
+    label: 'Sports store',
+    brief:
+      'An independent running and outdoor store with two shops in Manchester and an online shop. We stock trail and road shoes, waterproof jackets, hydration packs and GPS watches from the big brands, and our staff are all runners who do free gait analysis in store. We want visitors to find the right gear for how they run and buy it online.',
+    audience: 'Road and trail runners in the north of England',
+    primaryGoal: 'Buy running gear online',
+    brandAttributes: ['Knowledgeable', 'Local', 'Energetic'],
+  },
+  {
+    id: 'hotel',
+    label: 'Luxury hotel',
+    brief:
+      'A 24-room boutique hotel in a restored 18th-century palazzo in Lecce, southern Italy. Rooftop pool looking over the baroque old town, a restaurant run by a local chef, and a small spa in the old cisterns. Guests are couples from northern Europe and the US on a special trip. We want them to check availability and book direct instead of through Booking.com.',
+    audience: 'Couples planning a special trip to southern Italy',
+    primaryGoal: 'Check availability and book direct',
+    brandAttributes: ['Intimate', 'Warm', 'Timeless'],
+  },
+  {
+    id: 'api',
+    label: 'Developer API',
+    brief:
+      'An address verification API. Send a messy address, get back a standardised, geocoded, deliverability-checked one in under 50ms. Covers 240 countries, has SDKs for JavaScript, Python and Go, and a free tier of 1,000 lookups a month. Users are backend engineers at e-commerce and logistics companies. We want them to get an API key and make a first call.',
+    audience: 'Backend engineers at e-commerce and logistics companies',
+    primaryGoal: 'Get an API key and make a first call',
+    brandAttributes: ['Precise', 'Fast', 'Dependable'],
+  },
+  {
+    id: 'subscription',
+    label: 'Meal-kit subscription',
+    brief:
+      'A weekly meal-kit subscription for busy families in the UK: three or four dinners a week, recipes under 30 minutes, kids-approved, delivered in recyclable packaging. You pick meals each week and can skip or pause any time. Parents are tired of deciding what to cook every night. We want them to start their first box.',
+    audience: 'Busy UK parents cooking for a family',
+    primaryGoal: 'Start a first box',
+    brandAttributes: ['Warm', 'Easy', 'Reliable'],
+  },
 ] as const
