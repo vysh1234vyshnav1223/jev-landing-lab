@@ -1,21 +1,22 @@
-import { accentFor, navLinkCount, planSections } from '@/lib/generation/architecture'
+import type { z } from 'zod'
 import type { Strategy } from '@/lib/jev/directions'
 import type { ProductBrief } from '@/schemas/brief'
 import {
   landingPageSpec,
   type LandingPageSpec,
-  type SectionSpec,
+  sectionSpec,
   type SectionType,
 } from '@/schemas/spec'
 
 /**
  * Offline fixtures (USE_FIXTURES=1).
  *
- * Deliberately built from the SAME architecture functions the live path uses,
- * so what you see offline has the structure the real pipeline produces — only
- * the words are canned. Free models allow 50 requests/day; UI iteration should
- * not spend them.
+ * Canned structure and copy. The live path lets the model choose sections;
+ * offline there is no model, so this is one fixed plausible page. Free models
+ * allow 50 requests/day; UI iteration should not spend them.
  */
+
+const FIXTURE_SECTIONS: SectionType[] = ['featureGrid', 'socialProof', 'pricing', 'faq', 'cta']
 
 export function fixtureBrief(): ProductBrief {
   return {
@@ -53,7 +54,7 @@ const SEARCH_FIELDS = [
   { label: 'Travellers', placeholder: '1 adult', kind: 'counter' as const, options: [] },
 ]
 
-function section(type: SectionType): SectionSpec {
+function section(type: SectionType): z.input<typeof sectionSpec> {
   switch (type) {
     case 'search':
       return {
@@ -310,7 +311,7 @@ export function fixtureSpec(strategy: Strategy, variant = 0): LandingPageSpec {
   const s = strategy
 
   return landingPageSpec.parse({
-    theme: { direction: s.visualDirection, accent: accentFor(s) },
+    theme: { direction: s.visualDirection, accent: 'blue' },
     navigation: {
       wordmark: 'Wayfare',
       links: [
@@ -319,7 +320,7 @@ export function fixtureSpec(strategy: Strategy, variant = 0): LandingPageSpec {
         { label: 'Deals', href: '#' },
         { label: 'Alerts', href: '#' },
         { label: 'Help', href: '#' },
-      ].slice(0, navLinkCount(s)),
+      ].slice(0, [1, 3, 5][s.navigationComplexity] ?? 3),
       ctaLabel: s.ctaStrategy === 'contact' ? 'Talk to us' : 'Sign in',
       sticky: s.navigationComplexity > 0,
     },
@@ -343,7 +344,7 @@ export function fixtureSpec(strategy: Strategy, variant = 0): LandingPageSpec {
             ]
           : [],
     },
-    sections: planSections(s).map((t) => section(t)),
+    sections: FIXTURE_SECTIONS.map((t) => section(t)),
     footer: {
       tagline: 'Wayfare compares domestic fares across 40+ airlines. No booking fee.',
       columns: [

@@ -1,15 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { composeSpec } from '@/lib/generation/compose'
-import { planSections } from '@/lib/generation/architecture'
 import type { Strategy } from '@/lib/jev/directions'
 import type { ProductBrief } from '@/schemas/brief'
 
 /**
- * Regression: composeSpec used to silently drop any section the architecture
- * asked for but the model's response simply didn't include — no error, no
- * retry, just a thinner page than planSections() actually specified. The fix
- * makes a missing section a validation failure, which the existing repair
- * loop in generateStructured retries like any other malformed response.
+ * The model owns structure: whatever sections it picks, in whatever order,
+ * reach the page untouched. A page too thin to be one is rejected and retried.
  */
 
 const brief: ProductBrief = {
@@ -41,9 +37,6 @@ const strategy: Strategy = {
   requiresEducation: false,
 }
 
-// planSections(strategy) for these inputs is ['featureGrid', 'stats', 'cta'].
-const wanted = planSections(strategy)
-
 function sectionPayload(types: string[]) {
   return types.map((type) => {
     if (type === 'featureGrid') {
@@ -74,6 +67,7 @@ function sectionPayload(types: string[]) {
 
 function fullSpecBody(sections: string[]) {
   return {
+    theme: { direction: 'clean_utility', accent: 'rose' },
     navigation: { wordmark: 'W', links: [{ label: 'Home', href: '#' }], ctaLabel: 'Go', sticky: false },
     hero: {
       variant: 'search_first',
@@ -103,40 +97,38 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('composeSpec — missing-section retry', () => {
-  it('retries when the model omits a wanted section, and succeeds once all are present', async () => {
-    expect(wanted).toEqual(['featureGrid', 'stats', 'cta'])
+function stubModel(responses: string[][]) {
+  const calls: { messages: { role: string; content: string }[] }[] = []
+  const fetchMock = vi.fn(async (_url: string, init: RequestInit) => {
+    calls.push(JSON.parse(init.body as string))
+    const sections = responses[Math.min(calls.length, responses.length) - 1]
+    return chatCompletion(fullSpecBody(sections)) as unknown as Response
+  })
+  vi.stubGlobal('fetch', fetchMock)
+  vi.stubEnv('OPENROUTER_API_KEY', 'test-key')
+  vi.stubEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000')
+  vi.stubEnv('COMPOSING_MODEL', 'openai/gpt-5-nano')
+  return { calls, fetchMock }
+}
 
-    const calls: unknown[] = []
-    const fetchMock = vi.fn(async (_url: string, init: RequestInit) => {
-      calls.push(JSON.parse(init.body as string))
-      // First response: missing 'stats' entirely. Second: complete.
-      if (calls.length === 1) return chatCompletion(fullSpecBody(['featureGrid', 'cta'])) as unknown as Response
-      return chatCompletion(fullSpecBody(['featureGrid', 'stats', 'cta'])) as unknown as Response
-    })
-    vi.stubGlobal('fetch', fetchMock)
-    vi.stubEnv('OPENROUTER_API_KEY', 'test-key')
-    vi.stubEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000')
-    vi.stubEnv('COMPOSING_MODEL', 'openai/gpt-5-nano')
-
+describe('composeSpec — model-chosen structure', () => {
+  it("keeps the model's own section choice and order", async () => {
+    stubModel([['stats', 'featureGrid', 'stats', 'cta']])
     const spec = await composeSpec(brief, strategy)
-
-    expect(calls).toHaveLength(2)
-    expect(spec.sections.map((s) => s.type)).toEqual(['featureGrid', 'stats', 'cta'])
+    expect(spec.sections.map((s) => s.type)).toEqual(['stats', 'featureGrid', 'stats', 'cta'])
   })
 
-  it('never returns a spec thinner than what the architecture asked for, even after retries are spent', async () => {
-    const fetchMock = vi.fn(
-      async () => chatCompletion(fullSpecBody(['featureGrid', 'cta'])) as unknown as Response,
-    )
-    vi.stubGlobal('fetch', fetchMock)
-    vi.stubEnv('OPENROUTER_API_KEY', 'test-key')
-    vi.stubEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000')
-    vi.stubEnv('COMPOSING_MODEL', 'openai/gpt-5-nano')
+  it("sends Jev's answers, with their meaning, to the model", async () => {
+    const { calls } = stubModel([['featureGrid', 'stats', 'cta']])
+    await composeSpec(brief, strategy)
+    const user = calls[0].messages.find((m) => m.role === 'user')!.content
+    expect(user).toContain('Jev: search_first — Visitors already know what they want')
+    expect(user).toContain('Jev: false — The audience already trusts the category')
+  })
 
-    // Must throw, not resolve with a 2-section spec — the bug this guards
-    // against was exactly that: a silent, thinner-than-planned page.
-    await expect(composeSpec(brief, strategy)).rejects.toThrow(/stats/)
+  it('retries a page with too few sections, and throws once retries are spent', async () => {
+    const { fetchMock } = stubModel([['cta']])
+    await expect(composeSpec(brief, strategy)).rejects.toThrow(/at least 3 sections/)
     expect(fetchMock).toHaveBeenCalledTimes(3)
   })
 })

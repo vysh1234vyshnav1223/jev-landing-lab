@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { buildStrategy, diffStrategies, resolveDirection } from '@/lib/jev/directions'
 import { normalizeDecisions } from '@/lib/jev/normalize'
 import { fixtureDecisionsResponse } from '@/lib/jev/fixtures'
-import { planSections } from '@/lib/generation/architecture'
 
 const set = () => normalizeDecisions(fixtureDecisionsResponse(), 100)
 
@@ -58,33 +57,5 @@ describe('buildStrategy overrides', () => {
     const s = set()
     const overridden = buildStrategy(s, new Map([['ctaStrategy', 0]]))
     expect(overridden.departures).toEqual([])
-  })
-})
-
-describe('planSections', () => {
-  it('always ends on a CTA and never repeats a section', () => {
-    const { strategy } = resolveDirection(set())
-    const s = planSections(strategy)
-    expect(s.at(-1)).toBe('cta')
-    expect(new Set(s).size).toBe(s.length)
-  })
-
-  it('omits pricing when Jev says price does not matter', () => {
-    const { strategy } = resolveDirection(set())
-    const s = planSections({ ...strategy, offerProminence: 0 })
-    expect(s).not.toContain('pricing')
-  })
-
-  it('leads with the explainer when education is required', () => {
-    const { strategy } = resolveDirection(set())
-    const s = planSections({ ...strategy, requiresEducation: true })
-    expect(s[0]).toBe('explainer')
-  })
-
-  it('keeps a focused page shorter than a comprehensive one', () => {
-    const { strategy } = resolveDirection(set())
-    const focused = planSections({ ...strategy, pageArchitecture: 'focused' })
-    const full = planSections({ ...strategy, pageArchitecture: 'comprehensive' })
-    expect(focused.length).toBeLessThan(full.length)
   })
 })

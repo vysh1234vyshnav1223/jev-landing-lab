@@ -3,10 +3,9 @@ import { z } from 'zod'
 /**
  * The landing page spec.
  *
- * The generative model fills in COPY and CONTENT only. Structure — which hero,
- * which sections, in what order — is decided by Jev and resolved in
- * `directions.ts`, then merged in by `compose.ts`. The model is never asked to
- * pick a layout, and never emits executable code.
+ * The generative model chooses structure (hero, sections, order, theme) and
+ * writes the copy, guided by Jev's answers — see `compose.ts`. It only ever
+ * picks from these validated shapes; it never emits markup or code.
  */
 
 export const SECTION_TYPES = [
@@ -28,7 +27,6 @@ export type SectionType = (typeof SECTION_TYPES)[number]
 const link = z.object({ label: z.string(), href: z.string().default('#') })
 
 export const themeSpec = z.object({
-  /** Resolved from Jev's visualDirection — not chosen by the model. */
   direction: z.enum([
     'clean_utility',
     'warm_editorial',
@@ -46,7 +44,7 @@ export const navigationSpec = z.object({
 })
 
 export const heroSpec = z.object({
-  /** Resolved from Jev's heroStrategy. Selects the component. */
+  /** Selects the hero component. */
   variant: z.enum(['search_first', 'value_prop', 'social_proof', 'product_demo']),
   eyebrow: z.string().nullable().default(null),
   headline: z.string(),
@@ -71,7 +69,16 @@ export const heroSpec = z.object({
   demoSteps: z.array(z.object({ label: z.string(), detail: z.string() })).max(4).default([]),
 })
 
-const sectionBase = { heading: z.string(), subheading: z.string().nullable().default(null) }
+const sectionBase = {
+  heading: z.string(),
+  subheading: z.string().nullable().default(null),
+  /** Background band; null keeps the section type's own default. */
+  tone: z.enum(['plain', 'surface']).nullable().default(null),
+}
+
+/** How a section arranges its content. The first option is the fallback. */
+const layout = <const T extends [string, ...string[]]>(options: T) =>
+  z.enum(options).default(options[0] as T[0])
 
 export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
@@ -94,6 +101,7 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('featureGrid'),
     ...sectionBase,
+    layout: layout(['cards', 'list', 'split', 'bento']),
     items: z
       .array(
         z.object({
@@ -126,6 +134,7 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('stats'),
     ...sectionBase,
+    layout: layout(['row', 'band', 'cards']),
     items: z.array(z.object({ value: z.string(), label: z.string() })).min(2).max(4),
   }),
   z.object({
@@ -153,6 +162,7 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('testimonials'),
     ...sectionBase,
+    layout: layout(['grid', 'spotlight', 'wall']),
     items: z
       .array(z.object({ quote: z.string(), name: z.string(), role: z.string() }))
       .min(2)
@@ -161,6 +171,7 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('showcase'),
     ...sectionBase,
+    layout: layout(['grid', 'list', 'carousel']),
     /** Browsable cards — destinations, products, templates, courses. */
     categories: z.array(z.string()).max(5).default([]),
     items: z
@@ -179,6 +190,7 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('comparison'),
     ...sectionBase,
+    layout: layout(['table', 'cards']),
     columns: z.array(z.string()).min(2).max(3),
     rows: z
       .array(z.object({ label: z.string(), values: z.array(z.string()).min(2).max(3) }))
@@ -188,6 +200,7 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('explainer'),
     ...sectionBase,
+    layout: layout(['cards', 'timeline', 'numbered']),
     steps: z
       .array(z.object({ title: z.string(), body: z.string() }))
       .min(2)
@@ -196,11 +209,13 @@ export const sectionSpec = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('faq'),
     ...sectionBase,
+    layout: layout(['accordion', 'columns', 'split']),
     items: z.array(z.object({ q: z.string(), a: z.string() })).min(3).max(6),
   }),
   z.object({
     type: z.literal('cta'),
     ...sectionBase,
+    layout: layout(['card', 'band', 'split']),
     primaryCta: z.string(),
     secondaryCta: z.string().nullable().default(null),
     reassurance: z.string().nullable().default(null),

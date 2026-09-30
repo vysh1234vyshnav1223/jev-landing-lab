@@ -105,10 +105,9 @@ export const IDLE: Palette = {
 export const RIPPLE = hex('#8a8f99')
 
 /**
- * Jev's four visual registers (the `visualDirection` question). Each leans on
- * the accent the generated page will use for that register (architecture.ts:
- * clean → blue, warm → amber, bold → violet, technical → slate), so the ink
- * hands over to the finished page instead of clashing with it.
+ * Jev's four visual registers (the `visualDirection` question), each with an
+ * ink palette in that register's typical accent (clean → blue, warm → amber,
+ * bold → violet, technical → slate).
  */
 export const REGISTERS: Record<string, Palette> = {
   clean_utility: { bg: hex('#eef2f8'), ink: [hex('#2f6df6'), hex('#9db8f0'), hex('#d5deea')], speed: 0.35 },
